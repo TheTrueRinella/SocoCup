@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocoCup - Portale Ufficiale</title>
+    <style>
+        :root {
+            --bg-dark: #0f0c1b;
+            --bg-card: #1a1532;
+            --primary: #8b5cf6;
+            --accent: #3b82f6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); padding: 12px; }
+        
+        .app-header {
+            background: linear-gradient(135deg, #1e1b4b, #3b0764);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-title h1 { font-size: 1.1rem; color: #c084fc; text-transform: uppercase; letter-spacing: 0.5px; }
+        .app-title p { color: var(--text-muted); font-size: 0.75rem; margin-top: 2px; }
+        .credits-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            background: #1f1a3a;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .section-content { display: none; }
+        .section-content.active { display: block; }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        h2 { font-size: 1rem; color: #c084fc; margin-bottom: 12px; border-bottom: 2px solid rgba(139, 92, 246, 0.2); padding-bottom: 6px; }
+        p { font-size: 0.85rem; line-height: 1.4; color: #d1d5db; }
+
+        .dashboard-grid { display: grid; gap: 10px; }
+        .menu-card {
+            background: #151128;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-card:hover { background: #1f1a3a; }
+        .menu-card h3 { font-size: 0.95rem; color: #c084fc; }
+        .menu-card span { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 2px; }
+        .arrow { color: var(--primary); font-weight: bold; }
+
+        .field-box {
+            background: linear-gradient(135deg, #064e3b, #022c22);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 12px;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+        .module-title { font-size: 0.85rem; color: #34d399; margin-bottom: 10px; font-weight: bold; }
+        .player-pill {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 4px;
+            color: #fff;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th, td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.82rem; }
+        th { color: #c084fc; font-weight: 600; }
+        .badge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+
+        .bet-card {
+            background: #120f24;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .bet-match { font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #f3f4f6; text-align: center; }
+        .bet-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .bet-btn {
+            background: #1f1a3a;
+            border: 1px solid var(--border-color);
+            color: #d1d5db;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .bet-btn span { display: block; font-size: 0.7rem; color: #9ca3af; margin-top: 2px; }
+
+        .social-box { background: #120f24; padding: 12px; border-radius: 10px; margin-top: 10px; border: 1px dashed rgba(139, 92, 246, 0.3); }
+        input[type="text"] { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #374151; background: #1f1a3a; color: white; margin-bottom: 10px; box-sizing: border-box; font-size: 0.85rem; }
+        .action-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 0.85rem; }
+        .bot-reply { margin-top: 12px; font-size: 0.85rem; color: #d1d5db; background: var(--bg-card); padding: 12px; border-radius: 8px; border-left: 3px solid var(--primary); }
+        .fake-image { width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-header">
+        <div class="app-title">
+            <h1>Palermo Saint-Rosalia</h1>
+            <p>SocoCup 2026/27</p>
+        </div>
+        <div class="credits-badge">🪙 500 FC</div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('home', this)">🏠 Home</button>
+        <button class="tab-btn" onclick="switchTab('spogliatoio', this)">👕 Spogliatoio</button>
+        <button class="tab-btn" onclick="switchTab('tabellone', this)">📊 Tabellone</button>
+        <button class="tab-btn" onclick="switchTab('totogirrr', this)">🎯 Totogirrr</button>
+        <button class="tab-btn" onclick="switchTab('curva', this)">💬 Curva</button>
+    </div>
+
+    <div id="home" class="section-content active">
+        <div class="card">
+            <h2>Stato della Lega SocoCup</h2>
+            <p><strong>Lotta scudetto aperta:</strong> Il portale ufficiale della lega è operativo!</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="menu-card" onclick="switchTab('spogliatoio', document.querySelectorAll('.tab-btn')[1])">
+                <div>
+                    <h3>Spogliatoio</h3>
+                    <span>La tua rosa, moduli e formazioni</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            <div class="menu-card" onclick="switchTab('tabellone', document.querySelectorAll('.tab-btn')[2])">
+                <div>
+                    <h3>Tabellone</h3>
+                    <span>Risultati e classifiche di campionato</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            <div class="menu-card" onclick="switchTab('totogirrr', document.querySelectorAll('.tab-btn')[3])">
+                <div>
+                    <h3>Totogirrr</h3>
+                    <span>Scommesse e quote della lega</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            <div class="menu-card" onclick="switchTab('curva', document.querySelectorAll('.tab-btn')[4])">
+                <div>
+                    <h3>Curva</h3>
+                    <span>Il social della lega con bot e meme</span>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="spogliatoio" class="section-content">
+        <div class="card">
+            <h2>Formazione Titolare</h2>
+            <div class="field-box">
+                <div class="module-title">Modulo: 4-3-3</div>
+                <div><span class="player-pill">Svilar (Portiere)</span></div>
+                <div>
+                    <span class="player-pill">Ismajli</span>
+                    <span class="player-pill">Kamara H.</span>
+                    <span class="player-pill">Mancini</span>
+                    <span class="player-pill">De Winter</span>
+                </div>
+                <div>
+                    <span class="player-pill">Calò</span>
+                    <span class="player-pill">Zielinski</span>
+                    <span class="player-pill">Zambo Anguissa</span>
+                </div>
+                <div>
+                    <span class="player-pill">Cutrone</span>
+                    <span class="player-pill">Maldini</span>
+                    <span class="player-pill">Lautaro Martínez</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tabellone" class="section-content">
+        <div class="card">
+            <h2>Classifica Ufficiale SocoCup</h2>
+            <table>
+                <tr><th>#</th><th>Squadra</th><th>G</th><th>Pt Totali</th></tr>
+                <tr><td>1</td><td>Berlusca Dortmund</td><td>8</td><td>309.5</td></tr>
+                <tr><td>2</td><td>STOKE AZZO</td><td>8</td><td>291.5</td></tr>
+                <tr><td>3</td><td>Palermo Saint-Rosalia</td><td>7</td><td>305.0</td></tr>
+                <tr><td>4</td><td>Hertavernello</td><td>7</td><td>285.0</td></tr>
+                <tr><td>5</td><td>Aston Birra</td><td>4</td><td>298.0</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="totogirrr" class="section-content">
+        <div class="card">
+            <h2>Totogirrr - Scommesse Lega</h2>
+            <div class="bet-card">
+                <div class="bet-match">Palermo Saint-Rosalia vs Berlusca Dortmund</div>
+                <div class="bet-options">
+                    <div class="bet-btn">1 <span>1.85</span></div>
+                    <div class="bet-btn">X <span>3.30</span></div>
+                    <div class="bet-btn">2 <span>3.90</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="curva" class="section-content">
+        <div class="card">
+            <h2>Curva SocoCup - Il Social</h2>
+            <div class="social-box">
+                <input type="text" id="userComment" placeholder="Es. Che giornata incredibile...">
+                <button class="action-btn" onclick="inviaCommento()">Lancia il coro</button>
+                <div id="botResponse" class="bot-reply" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(btn) btn.classList.add('active');
+        }
+
+        function inviaCommento() {
+            const input = document.getElementById('userComment').value;
+            const replyDiv = document.getElementById('botResponse');
+            if(!input.trim()) {
+                replyDiv.style.display = "block";
+                replyDiv.innerHTML = "⚠️ Scrivi prima qualcosa!";
+                return;
+            }
+            replyDiv.style.display = "block";
+            replyDiv.innerHTML = "<strong>Tu:</strong> " + input + "<br><br><strong>Palermo Saint-Rosalia:</strong><br>Carichissimi per la prossima giornata!";
+            document.getElementById('userComment').value = "";
+        }
+    </script>
+</body>
+</html>
