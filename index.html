@@ -2,296 +2,1346 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocoCup - Portale Ufficiale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SocoCup - Official Web App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --bg-dark: #0f0c1b;
-            --bg-card: #1a1532;
+            --bg-main: #090712;
+            --bg-card: #141026;
+            --bg-card-light: #1e1836;
             --primary: #8b5cf6;
+            --primary-glow: rgba(139, 92, 246, 0.4);
+            --pink-palermo: #f472b6;
             --accent: #3b82f6;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding: 12px; }
-        
-        .app-header {
-            background: linear-gradient(135deg, #1e1b4b, #3b0764);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(circle at 50% 0%, #2e1065 0%, #090712 60%);
+            color: var(--text-main);
+            padding-bottom: 85px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* HEADER TOP */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 11, 30, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .app-title h1 { font-size: 1.1rem; color: #c084fc; text-transform: uppercase; letter-spacing: 0.5px; }
-        .app-title p { color: var(--text-muted); font-size: 0.75rem; margin-top: 2px; }
-        .credits-badge {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .team-crest {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f472b6, #111827);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #fff;
+            border: 2px solid var(--pink-palermo);
+            box-shadow: 0 0 12px rgba(244, 114, 182, 0.3);
+        }
+
+        .brand-info h1 {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            background: linear-gradient(90deg, #fff, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-info p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .wallet-pill {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .nav-tabs {
+            font-size: 0.82rem;
+            font-weight: 700;
             display: flex;
-            overflow-x: auto;
-            gap: 8px;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            scrollbar-width: none;
-        }
-        .nav-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn {
-            background: #1f1a3a;
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+            align-items: center;
+            gap: 6px;
         }
 
-        .section-content { display: none; }
-        .section-content.active { display: block; }
-
-        .card {
-            background-color: var(--bg-card);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        h2 { font-size: 1rem; color: #c084fc; margin-bottom: 12px; border-bottom: 2px solid rgba(139, 92, 246, 0.2); padding-bottom: 6px; }
-        p { font-size: 0.85rem; line-height: 1.4; color: #d1d5db; }
-
-        .dashboard-grid { display: grid; gap: 10px; }
-        .menu-card {
-            background: #151128;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+        /* CONTAINER */
+        .container {
             padding: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-content {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HERO / BIG MATCH CARD */
+        .hero-card {
+            background: linear-gradient(135deg, #3b0764 0%, #1e1b4b 100%);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(244, 114, 182, 0.2);
+            color: #f472b6;
+            border: 1px solid rgba(244, 114, 182, 0.4);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .match-showcase {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .menu-card:hover { background: #1f1a3a; }
-        .menu-card h3 { font-size: 0.95rem; color: #c084fc; }
-        .menu-card span { font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 2px; }
-        .arrow { color: var(--primary); font-weight: bold; }
-
-        .field-box {
-            background: linear-gradient(135deg, #064e3b, #022c22);
-            border-radius: 10px;
-            padding: 15px;
             text-align: center;
-            margin-bottom: 12px;
-            border: 1px solid rgba(52, 211, 153, 0.3);
+            margin: 8px 0 14px;
         }
-        .module-title { font-size: 0.85rem; color: #34d399; margin-bottom: 10px; font-weight: bold; }
-        .player-pill {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            display: inline-block;
-            margin: 4px;
+
+        .match-team {
+            flex: 1;
+        }
+
+        .match-team-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 auto 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .match-team h4 {
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .match-vs {
+            padding: 0 12px;
+        }
+
+        .match-vs .score-pill {
+            background: rgba(0, 0, 0, 0.45);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #c084fc;
+            border: 1px solid var(--border);
+        }
+
+        .match-vs span {
+            display: block;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* STATS MINI GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .stat-box i {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-box .val {
+            font-size: 1.05rem;
+            font-weight: 800;
             color: #fff;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
-        th, td { padding: 9px 8px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.82rem; }
-        th { color: #c084fc; font-weight: 600; }
-        .badge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .stat-box .lbl {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+        }
 
-        .bet-card {
-            background: #120f24;
-            border: 1px solid var(--border-color);
+        /* GENERIC CARD */
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* QUICK MENU GRID */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .quick-card {
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quick-card:active {
+            transform: scale(0.97);
+        }
+
+        .quick-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .quick-card h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .quick-card p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* SPOGLIATOIO & PITCH */
+        .module-selector {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .mod-btn {
+            flex: 1;
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .mod-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: #c084fc;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .soccer-pitch {
+            background: repeating-linear-gradient(
+                0deg,
+                #065f46,
+                #065f46 28px,
+                #047857 28px,
+                #047857 56px
+            );
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-radius: 14px;
+            padding: 16px 8px;
+            position: relative;
+            margin-bottom: 14px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
+        }
+
+        .pitch-line-mid {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .pitch-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .pitch-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 14px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pitch-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 72px;
+            text-align: center;
+        }
+
+        .shirt-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #111827;
+            border: 2px solid var(--pink-palermo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.72rem;
+            color: #fff;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .shirt-icon.gk {
+            background: #f59e0b;
+            border-color: #fde68a;
+            color: #000;
+        }
+
+        .player-label {
+            background: rgba(9, 7, 18, 0.85);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-top: 4px;
+            white-space: nowrap;
+            max-width: 76px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .tit-bar {
+            width: 44px;
+            height: 4px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 2px;
+            margin-top: 3px;
+            overflow: hidden;
+        }
+
+        .tit-fill {
+            height: 100%;
+            background: #10b981;
+        }
+
+        /* ROLE FILTERS & ROSTER LIST */
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .role-P { background: #f59e0b; }
+        .role-D { background: #10b981; }
+        .role-C { background: #3b82f6; }
+        .role-A { background: #ef4444; }
+
+        /* TABLES */
+        .sub-tabs {
+            display: flex;
+            background: var(--bg-card-light);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+        }
+
+        .sub-tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .sub-tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px 6px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.78rem;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .highlight-row {
+            background: rgba(244, 114, 182, 0.12);
+        }
+
+        .pos-badge {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            background: var(--bg-card-light);
+        }
+
+        .pos-1 { background: #fbbf24; color: #000; }
+        .pos-2 { background: #94a3b8; color: #000; }
+        .pos-3 { background: #d97706; color: #fff; }
+
+        /* MATCH RESULT ROW */
+        .match-result-item {
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mr-teams {
+            flex: 1;
+        }
+
+        .mr-team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .mr-fanta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-right: 8px;
+        }
+
+        .mr-goals {
+            background: var(--bg-main);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 800;
+            color: #c084fc;
+        }
+
+        /* TOTOGIRRR */
+        .bet-item {
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
         }
-        .bet-match { font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #f3f4f6; text-align: center; }
-        .bet-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-        .bet-btn {
-            background: #1f1a3a;
-            border: 1px solid var(--border-color);
-            color: #d1d5db;
+
+        .bet-teams {
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .odds-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .odd-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 8px;
-            border-radius: 6px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .odd-btn.selected {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: #c084fc;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .odd-btn .sign {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .odd-btn .val {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .slip-box {
+            background: linear-gradient(135deg, #1e1b4b, #31104b);
+            border: 1px solid #c084fc;
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+
+        /* CURVA SOCIAL */
+        .post-card {
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .post-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .post-meta h5 {
             font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .post-meta span {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .post-body {
+            font-size: 0.82rem;
+            line-height: 1.4;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 14px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .like-btn {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .like-btn.liked {
+            color: #f472b6;
+            font-weight: 700;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .input-group input {
+            flex: 1;
+            background: var(--bg-card-light);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.82rem;
             cursor: pointer;
         }
-        .bet-btn span { display: block; font-size: 0.7rem; color: #9ca3af; margin-top: 2px; }
 
-        .social-box { background: #120f24; padding: 12px; border-radius: 10px; margin-top: 10px; border: 1px dashed rgba(139, 92, 246, 0.3); }
-        input[type="text"] { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #374151; background: #1f1a3a; color: white; margin-bottom: 10px; box-sizing: border-box; font-size: 0.85rem; }
-        .action-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; font-size: 0.85rem; }
-        .bot-reply { margin-top: 12px; font-size: 0.85rem; color: #d1d5db; background: var(--bg-card); padding: 12px; border-radius: 8px; border-left: 3px solid var(--primary); }
-        .fake-image { width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
+        /* BOTTOM NAV BAR */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 11, 30, 0.95);
+            backdrop-filter: blur(14px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 4px 12px;
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: none;
+            border: none;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 1.15rem;
+            transition: transform 0.2s;
+        }
+
+        .nav-item.active {
+            color: #c084fc;
+        }
+
+        .nav-item.active i {
+            transform: translateY(-2px);
+            color: var(--pink-palermo);
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-header">
-        <div class="app-title">
-            <h1>Palermo Saint-Rosalia</h1>
-            <p>SocoCup 2026/27</p>
+    <!-- TOP HEADER -->
+    <div class="top-bar">
+        <div class="brand-box">
+            <div class="team-crest">PSR</div>
+            <div class="brand-info">
+                <h1>Palermo Saint-Rosalia</h1>
+                <p>Pres. Rinella • SocoCup 26/27</p>
+            </div>
         </div>
-        <div class="credits-badge">🪙 500 FC</div>
+        <div class="wallet-pill">
+            <i class="fa-solid fa-coins"></i>
+            <span id="userCredits">500</span> FC
+        </div>
     </div>
 
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('home', this)">🏠 Home</button>
-        <button class="tab-btn" onclick="switchTab('spogliatoio', this)">👕 Spogliatoio</button>
-        <button class="tab-btn" onclick="switchTab('tabellone', this)">📊 Tabellone</button>
-        <button class="tab-btn" onclick="switchTab('totogirrr', this)">🎯 Totogirrr</button>
-        <button class="tab-btn" onclick="switchTab('curva', this)">💬 Curva</button>
-    </div>
+    <div class="container">
 
-    <div id="home" class="section-content active">
-        <div class="card">
-            <h2>Stato della Lega SocoCup</h2>
-            <p><strong>Lotta scudetto aperta:</strong> Il portale ufficiale della lega è operativo!</p>
-        </div>
+        <!-- ================= HOME ================= -->
+        <div id="home" class="section-content active">
+            
+            <div class="hero-card">
+                <span class="hero-badge"><i class="fa-solid fa-fire"></i> Big Match 9ª Giornata</span>
+                <div class="match-showcase">
+                    <div class="match-team">
+                        <div class="match-team-logo" style="background: linear-gradient(135deg,#f472b6,#000);">PSR</div>
+                        <h4>Palermo S.R.</h4>
+                    </div>
+                    <div class="match-vs">
+                        <div class="score-pill">VS</div>
+                        <span>Dom 15:00</span>
+                    </div>
+                    <div class="match-team">
+                        <div class="match-team-logo" style="background: linear-gradient(135deg,#facc15,#000); color:#000;">BDO</div>
+                        <h4>Berlusca D.</h4>
+                    </div>
+                </div>
+                <p style="font-size:0.75rem; text-align:center; color:#e9d5ff;">
+                    Sfida al vertice: una vittoria porta il Palermo Saint-Rosalia in testa!
+                </p>
+            </div>
 
-        <div class="dashboard-grid">
-            <div class="menu-card" onclick="switchTab('spogliatoio', document.querySelectorAll('.tab-btn')[1])">
-                <div>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <i class="fa-solid fa-trophy"></i>
+                    <div class="val">3° Posto</div>
+                    <div class="lbl">In Classifica</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-bolt"></i>
+                    <div class="val">574.5</div>
+                    <div class="lbl">Fantapunti</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-solid fa-futbol"></i>
+                    <div class="val">Lautaro</div>
+                    <div class="lbl">Top Bomber</div>
+                </div>
+            </div>
+
+            <div class="quick-grid">
+                <div class="quick-card" onclick="goTab('spogliatoio', 1)">
+                    <div class="quick-icon"><i class="fa-solid fa-shirt"></i></div>
                     <h3>Spogliatoio</h3>
-                    <span>La tua rosa, moduli e formazioni</span>
+                    <p>Modulo 4-3-3, titolari, panchina e rosa completa</p>
                 </div>
-                <div class="arrow">›</div>
-            </div>
-            <div class="menu-card" onclick="switchTab('tabellone', document.querySelectorAll('.tab-btn')[2])">
-                <div>
+                <div class="quick-card" onclick="goTab('tabellone', 2)">
+                    <div class="quick-icon"><i class="fa-solid fa-ranking-star"></i></div>
                     <h3>Tabellone</h3>
-                    <span>Risultati e classifiche di campionato</span>
+                    <p>Classifica 10 squadre e risultati live di giornata</p>
                 </div>
-                <div class="arrow">›</div>
-            </div>
-            <div class="menu-card" onclick="switchTab('totogirrr', document.querySelectorAll('.tab-btn')[3])">
-                <div>
+                <div class="quick-card" onclick="goTab('totogirrr', 3)">
+                    <div class="quick-icon"><i class="fa-solid fa-ticket"></i></div>
                     <h3>Totogirrr</h3>
-                    <span>Scommesse e quote della lega</span>
+                    <p>Quote 9ª giornata e schedina interattiva</p>
                 </div>
-                <div class="arrow">›</div>
+                <div class="quick-card" onclick="goTab('curva', 4)">
+                    <div class="quick-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <h3>Curva & Social</h3>
+                    <p>Sfottò, cori, Gazzetta e commenti live</p>
+                </div>
             </div>
-            <div class="menu-card" onclick="switchTab('curva', document.querySelectorAll('.tab-btn')[4])">
-                <div>
-                    <h3>Curva</h3>
-                    <span>Il social della lega con bot e meme</span>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-newspaper"></i> Gazzetta SocoCup - Ultime</div>
                 </div>
-                <div class="arrow">›</div>
+                <p style="font-size:0.8rem; color:#cbd5e1; line-height:1.45;">
+                    🔥 <strong>Palermo Saint-Rosalia a caccia del sorpasso:</strong> con un attacco guidato da Lautaro Martínez, Cutrone e Maldini, il presidente Rinella prepara l'assalto alla vetta contro la capolista Berlusca Dortmund.
+                </p>
             </div>
         </div>
+
+        <!-- ================= SPOGLIATOIO ================= -->
+        <div id="spogliatoio" class="section-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-chalkboard-user"></i> Schieramento in Campo</div>
+                    <span style="font-size:0.75rem; color:#10b981; font-weight:700;">✔ Formazione Salva</span>
+                </div>
+
+                <div class="module-selector">
+                    <button class="mod-btn active" onclick="setFormation('4-3-3', this)">4-3-3</button>
+                    <button class="mod-btn" onclick="setFormation('3-4-3', this)">3-4-3</button>
+                    <button class="mod-btn" onclick="setFormation('3-5-2', this)">3-5-2</button>
+                    <button class="mod-btn" onclick="setFormation('4-4-2', this)">4-4-2</button>
+                </div>
+
+                <!-- CAMPO DA CALCIO -->
+                <div class="soccer-pitch" id="pitchContainer">
+                    <div class="pitch-line-mid"></div>
+                    <div class="pitch-circle"></div>
+                    <div id="pitchRows"></div>
+                </div>
+
+                <div class="card-title" style="margin-top:12px; margin-bottom:8px;">
+                    <i class="fa-solid fa-chair"></i> Panchina Ufficiale
+                </div>
+                <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px;">
+                    <span class="player-label">12. Falcone (P)</span>
+                    <span class="player-label">13. Pavard (D)</span>
+                    <span class="player-label">14. Dorgu (D)</span>
+                    <span class="player-label">15. Samardzic (C)</span>
+                    <span class="player-label">16. Fazzini (C)</span>
+                    <span class="player-label">17. Krstovic (A)</span>
+                    <span class="player-label">18. Tengstedt (A)</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-users"></i> Lista Rosa & Quotazioni</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>R</th><th>Calciatore</th><th>Club</th><th>Tit %</th><th>FVM</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="role-badge role-P">P</span></td><td><strong>Svilar</strong></td><td>ROM</td><td>95%</td><td>38</td></tr>
+                        <tr><td><span class="role-badge role-D">D</span></td><td><strong>Mancini</strong></td><td>ROM</td><td>92%</td><td>22</td></tr>
+                        <tr><td><span class="role-badge role-D">D</span></td><td><strong>De Winter</strong></td><td>GEN</td><td>88%</td><td>14</td></tr>
+                        <tr><td><span class="role-badge role-D">D</span></td><td><strong>Kamara H.</strong></td><td>UDI</td><td>85%</td><td>12</td></tr>
+                        <tr><td><span class="role-badge role-D">D</span></td><td><strong>Ismajli</strong></td><td>EMP</td><td>90%</td><td>10</td></tr>
+                        <tr><td><span class="role-badge role-C">C</span></td><td><strong>Zambo Anguissa</strong></td><td>NAP</td><td>94%</td><td>25</td></tr>
+                        <tr><td><span class="role-badge role-C">C</span></td><td><strong>Zielinski</strong></td><td>INT</td><td>80%</td><td>28</td></tr>
+                        <tr><td><span class="role-badge role-C">C</span></td><td><strong>Calò</strong></td><td>CES</td><td>89%</td><td>11</td></tr>
+                        <tr><td><span class="role-badge role-A">A</span></td><td><strong>Lautaro Martínez</strong></td><td>INT</td><td>98%</td><td>185</td></tr>
+                        <tr><td><span class="role-badge role-A">A</span></td><td><strong>Cutrone</strong></td><td>COM</td><td>91%</td><td>34</td></tr>
+                        <tr><td><span class="role-badge role-A">A</span></td><td><strong>Maldini</strong></td><td>MON</td><td>86%</td><td>21</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= TABELLONE ================= -->
+        <div id="tabellone" class="section-content">
+            <div class="sub-tabs">
+                <div class="sub-tab active" onclick="switchSubTab('classificaView', 'risultatiView', this)">Classifica (10 Squadre)</div>
+                <div class="sub-tab" onclick="switchSubTab('risultatiView', 'classificaView', this)">Risultati 8ª Giornata</div>
+            </div>
+
+            <!-- CLASSIFICA COMPLETA -->
+            <div id="classificaView" class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-crown"></i> Classifica Generale SocoCup</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr><th>#</th><th>Squadra</th><th>G</th><th>V-N-P</th><th>Pt</th><th>F.Pt</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="pos-badge pos-1">1</span></td><td><strong>Berlusca Dortmund</strong></td><td>8</td><td>6-1-1</td><td><strong>19</strong></td><td>589.5</td></tr>
+                        <tr><td><span class="pos-badge pos-2">2</span></td><td><strong>STOKE AZZO</strong></td><td>8</td><td>5-2-1</td><td><strong>17</strong></td><td>578.0</td></tr>
+                        <tr class="highlight-row"><td><span class="pos-badge pos-3">3</span></td><td><strong>Palermo Saint-Rosalia</strong></td><td>8</td><td>5-1-2</td><td><strong>16</strong></td><td>574.5</td></tr>
+                        <tr><td><span class="pos-badge">4</span></td><td>Hertavernello</td><td>8</td><td>4-2-2</td><td><strong>14</strong></td><td>561.0</td></tr>
+                        <tr><td><span class="pos-badge">5</span></td><td>Aston Birra</td><td>8</td><td>4-1-3</td><td><strong>13</strong></td><td>558.5</td></tr>
+                        <tr><td><span class="pos-badge">6</span></td><td>Real Madrink</td><td>8</td><td>3-2-3</td><td><strong>11</strong></td><td>545.0</td></tr>
+                        <tr><td><span class="pos-badge">7</span></td><td>AC Picchia</td><td>8</td><td>3-1-4</td><td><strong>10</strong></td><td>539.5</td></tr>
+                        <tr><td><span class="pos-badge">8</span></td><td>Patetico Madrid</td><td>8</td><td>2-2-4</td><td><strong>8</strong></td><td>528.0</td></tr>
+                        <tr><td><span class="pos-badge">9</span></td><td>CSKA La Rissa</td><td>8</td><td>1-2-5</td><td><strong>5</strong></td><td>512.5</td></tr>
+                        <tr><td><span class="pos-badge">10</span></td><td>Scarsenal FC</td><td>8</td><td>0-0-8</td><td><strong>0</strong></td><td>489.0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- RISULTATI DI GIORNATA -->
+            <div id="risultatiView" class="card" style="display:none;">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-futbol"></i> Tabellino 8ª Giornata</div>
+                </div>
+
+                <div class="match-result-item">
+                    <div class="mr-teams">
+                        <div class="mr-team-row">
+                            <span style="color:#f472b6;">Palermo Saint-Rosalia</span>
+                            <div><span class="mr-fanta">76.5</span><span class="mr-goals">3</span></div>
+                        </div>
+                        <div class="mr-team-row">
+                            <span>Aston Birra</span>
+                            <div><span class="mr-fanta">68.0</span><span class="mr-goals">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-result-item">
+                    <div class="mr-teams">
+                        <div class="mr-team-row">
+                            <span>Berlusca Dortmund</span>
+                            <div><span class="mr-fanta">72.0</span><span class="mr-goals">2</span></div>
+                        </div>
+                        <div class="mr-team-row">
+                            <span>Hertavernello</span>
+                            <div><span class="mr-fanta">71.5</span><span class="mr-goals">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-result-item">
+                    <div class="mr-teams">
+                        <div class="mr-team-row">
+                            <span>STOKE AZZO</span>
+                            <div><span class="mr-fanta">74.0</span><span class="mr-goals">2</span></div>
+                        </div>
+                        <div class="mr-team-row">
+                            <span>Real Madrink</span>
+                            <div><span class="mr-fanta">66.5</span><span class="mr-goals">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-result-item">
+                    <div class="mr-teams">
+                        <div class="mr-team-row">
+                            <span>AC Picchia</span>
+                            <div><span class="mr-fanta">69.5</span><span class="mr-goals">1</span></div>
+                        </div>
+                        <div class="mr-team-row">
+                            <span>Patetico Madrid</span>
+                            <div><span class="mr-fanta">69.0</span><span class="mr-goals">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-result-item">
+                    <div class="mr-teams">
+                        <div class="mr-team-row">
+                            <span>CSKA La Rissa</span>
+                            <div><span class="mr-fanta">70.5</span><span class="mr-goals">1</span></div>
+                        </div>
+                        <div class="mr-team-row">
+                            <span>Scarsenal FC</span>
+                            <div><span class="mr-fanta">61.0</span><span class="mr-goals">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TOTOGIRRR ================= -->
+        <div id="totogirrr" class="section-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-dice"></i> Totogirrr - Quote 9ª Giornata</div>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">Tocca le quote</span>
+                </div>
+
+                <div class="bet-item">
+                    <div class="bet-teams"><span>Palermo Saint-Rosalia - Berlusca Dortmund</span></div>
+                    <div class="odds-grid">
+                        <div class="odd-btn" onclick="toggleBet(0, '1', 1.85, this)"><span class="sign">1</span><span class="val">1.85</span></div>
+                        <div class="odd-btn" onclick="toggleBet(0, 'X', 3.40, this)"><span class="sign">X</span><span class="val">3.40</span></div>
+                        <div class="odd-btn" onclick="toggleBet(0, '2', 3.80, this)"><span class="sign">2</span><span class="val">3.80</span></div>
+                    </div>
+                </div>
+
+                <div class="bet-item">
+                    <div class="bet-teams"><span>STOKE AZZO - Hertavernello</span></div>
+                    <div class="odds-grid">
+                        <div class="odd-btn" onclick="toggleBet(1, '1', 1.95, this)"><span class="sign">1</span><span class="val">1.95</span></div>
+                        <div class="odd-btn" onclick="toggleBet(1, 'X', 3.25, this)"><span class="sign">X</span><span class="val">3.25</span></div>
+                        <div class="odd-btn" onclick="toggleBet(1, '2', 3.50, this)"><span class="sign">2</span><span class="val">3.50</span></div>
+                    </div>
+                </div>
+
+                <div class="bet-item">
+                    <div class="bet-teams"><span>Aston Birra - Real Madrink</span></div>
+                    <div class="odds-grid">
+                        <div class="odd-btn" onclick="toggleBet(2, '1', 2.10, this)"><span class="sign">1</span><span class="val">2.10</span></div>
+                        <div class="odd-btn" onclick="toggleBet(2, 'X', 3.10, this)"><span class="sign">X</span><span class="val">3.10</span></div>
+                        <div class="odd-btn" onclick="toggleBet(2, '2', 3.20, this)"><span class="sign">2</span><span class="val">3.20</span></div>
+                    </div>
+                </div>
+
+                <!-- SCHEDINA CALCOLATA -->
+                <div class="slip-box">
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:6px;">
+                        <span>Quota Totale:</span>
+                        <strong id="totalOdd" style="color:#f472b6;">1.00</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:12px;">
+                        <span>Vincita Potenziale (Puntata 10 FC):</span>
+                        <strong id="potentialWin" style="color:#34d399;">0 FC</strong>
+                    </div>
+                    <button class="btn-primary" style="width:100%;" onclick="placeBet()">
+                        <i class="fa-solid fa-check-double"></i> Gioca Schedina (10 FC)
+                    </button>
+                    <p id="betStatus" style="font-size:0.75rem; color:#a7f3d0; margin-top:8px; text-align:center; display:none;"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CURVA SOCIAL ================= -->
+        <div id="curva" class="section-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fa-solid fa-comments"></i> Muro del Pianto & Sfottò</div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="socialInput" placeholder="Scrivi uno sfottò alla lega...">
+                    <button class="btn-primary" onclick="publishPost()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+
+                <div id="socialFeed">
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background:#f472b6;">PSR</div>
+                            <div class="post-meta">
+                                <h5>Palermo Saint-Rosalia</h5>
+                                <span>10 minuti fa • Ufficiale</span>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            Con il tridente Lautaro - Cutrone - Maldini non ce n'è per nessuno! Preparatevi per la prossima giornata 🦅🩷🖤
+                        </div>
+                        <div class="post-actions">
+                            <span class="like-btn" onclick="likePost(this)"><i class="fa-solid fa-heart"></i> <span>8</span> Mi piace</span>
+                            <span><i class="fa-solid fa-comment"></i> 3 Commenti</span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background:#f59e0b; color:#000;">BDO</div>
+                            <div class="post-meta">
+                                <h5>Berlusca Dortmund</h5>
+                                <span>1 ora fa</span>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            Domenica ci giochiamo il primo posto contro Rinella, partita dell'anno! 🔥
+                        </div>
+                        <div class="post-actions">
+                            <span class="like-btn" onclick="likePost(this)"><i class="fa-solid fa-heart"></i> <span>5</span> Mi piace</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div id="spogliatoio" class="section-content">
-        <div class="card">
-            <h2>Formazione Titolare</h2>
-            <div class="field-box">
-                <div class="module-title">Modulo: 4-3-3</div>
-                <div><span class="player-pill">Svilar (Portiere)</span></div>
-                <div>
-                    <span class="player-pill">Ismajli</span>
-                    <span class="player-pill">Kamara H.</span>
-                    <span class="player-pill">Mancini</span>
-                    <span class="player-pill">De Winter</span>
-                </div>
-                <div>
-                    <span class="player-pill">Calò</span>
-                    <span class="player-pill">Zielinski</span>
-                    <span class="player-pill">Zambo Anguissa</span>
-                </div>
-                <div>
-                    <span class="player-pill">Cutrone</span>
-                    <span class="player-pill">Maldini</span>
-                    <span class="player-pill">Lautaro Martínez</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tabellone" class="section-content">
-        <div class="card">
-            <h2>Classifica Ufficiale SocoCup</h2>
-            <table>
-                <tr><th>#</th><th>Squadra</th><th>G</th><th>Pt Totali</th></tr>
-                <tr><td>1</td><td>Berlusca Dortmund</td><td>8</td><td>309.5</td></tr>
-                <tr><td>2</td><td>STOKE AZZO</td><td>8</td><td>291.5</td></tr>
-                <tr><td>3</td><td>Palermo Saint-Rosalia</td><td>7</td><td>305.0</td></tr>
-                <tr><td>4</td><td>Hertavernello</td><td>7</td><td>285.0</td></tr>
-                <tr><td>5</td><td>Aston Birra</td><td>4</td><td>298.0</td></tr>
-            </table>
-        </div>
-    </div>
-
-    <div id="totogirrr" class="section-content">
-        <div class="card">
-            <h2>Totogirrr - Scommesse Lega</h2>
-            <div class="bet-card">
-                <div class="bet-match">Palermo Saint-Rosalia vs Berlusca Dortmund</div>
-                <div class="bet-options">
-                    <div class="bet-btn">1 <span>1.85</span></div>
-                    <div class="bet-btn">X <span>3.30</span></div>
-                    <div class="bet-btn">2 <span>3.90</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="curva" class="section-content">
-        <div class="card">
-            <h2>Curva SocoCup - Il Social</h2>
-            <div class="social-box">
-                <input type="text" id="userComment" placeholder="Es. Che giornata incredibile...">
-                <button class="action-btn" onclick="inviaCommento()">Lancia il coro</button>
-                <div id="botResponse" class="bot-reply" style="display:none;"></div>
-            </div>
-        </div>
+    <!-- BOTTOM NAVIGATION BAR -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="goTab('home', 0)">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="goTab('spogliatoio', 1)">
+            <i class="fa-solid fa-shirt"></i>
+            <span>Spogliatoio</span>
+        </button>
+        <button class="nav-item" onclick="goTab('tabellone', 2)">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Tabellone</span>
+        </button>
+        <button class="nav-item" onclick="goTab('totogirrr', 3)">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Totogirrr</span>
+        </button>
+        <button class="nav-item" onclick="goTab('curva', 4)">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Curva</span>
+        </button>
     </div>
 
     <script>
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        // NAVIGAZIONE TABS
+        function goTab(tabId, index) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            if(btn) btn.classList.add('active');
+            document.querySelectorAll('.nav-item')[index].classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function inviaCommento() {
-            const input = document.getElementById('userComment').value;
-            const replyDiv = document.getElementById('botResponse');
-            if(!input.trim()) {
-                replyDiv.style.display = "block";
-                replyDiv.innerHTML = "⚠️ Scrivi prima qualcosa!";
+        function switchSubTab(showId, hideId, btn) {
+            document.getElementById(showId).style.display = 'block';
+            document.getElementById(hideId).style.display = 'none';
+            btn.parentElement.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // GENERAZIONE CAMPO E MODULI DINAMICI
+        const formations = {
+            '4-3-3': [
+                [{ name: 'Svilar', num: 99, gk: true, tit: 95 }],
+                [
+                    { name: 'Ismajli', num: 34, tit: 90 },
+                    { name: 'Mancini', num: 23, tit: 92 },
+                    { name: 'De Winter', num: 4, tit: 88 },
+                    { name: 'Kamara H.', num: 11, tit: 85 }
+                ],
+                [
+                    { name: 'Calò', num: 14, tit: 89 },
+                    { name: 'Zielinski', num: 7, tit: 80 },
+                    { name: 'Anguissa', num: 99, tit: 94 }
+                ],
+                [
+                    { name: 'Maldini', num: 14, tit: 86 },
+                    { name: 'Lautaro', num: 10, tit: 98 },
+                    { name: 'Cutrone', num: 10, tit: 91 }
+                ]
+            ],
+            '3-4-3': [
+                [{ name: 'Svilar', num: 99, gk: true, tit: 95 }],
+                [
+                    { name: 'Ismajli', num: 34, tit: 90 },
+                    { name: 'Mancini', num: 23, tit: 92 },
+                    { name: 'De Winter', num: 4, tit: 88 }
+                ],
+                [
+                    { name: 'Kamara H.', num: 11, tit: 85 },
+                    { name: 'Calò', num: 14, tit: 89 },
+                    { name: 'Zielinski', num: 7, tit: 80 },
+                    { name: 'Anguissa', num: 99, tit: 94 }
+                ],
+                [
+                    { name: 'Maldini', num: 14, tit: 86 },
+                    { name: 'Lautaro', num: 10, tit: 98 },
+                    { name: 'Cutrone', num: 10, tit: 91 }
+                ]
+            ],
+            '3-5-2': [
+                [{ name: 'Svilar', num: 99, gk: true, tit: 95 }],
+                [
+                    { name: 'Ismajli', num: 34, tit: 90 },
+                    { name: 'Mancini', num: 23, tit: 92 },
+                    { name: 'De Winter', num: 4, tit: 88 }
+                ],
+                [
+                    { name: 'Kamara H.', num: 11, tit: 85 },
+                    { name: 'Calò', num: 14, tit: 89 },
+                    { name: 'Samardzic', num: 24, tit: 82 },
+                    { name: 'Zielinski', num: 7, tit: 80 },
+                    { name: 'Anguissa', num: 99, tit: 94 }
+                ],
+                [
+                    { name: 'Lautaro', num: 10, tit: 98 },
+                    { name: 'Cutrone', num: 10, tit: 91 }
+                ]
+            ],
+            '4-4-2': [
+                [{ name: 'Svilar', num: 99, gk: true, tit: 95 }],
+                [
+                    { name: 'Ismajli', num: 34, tit: 90 },
+                    { name: 'Mancini', num: 23, tit: 92 },
+                    { name: 'De Winter', num: 4, tit: 88 },
+                    { name: 'Kamara H.', num: 11, tit: 85 }
+                ],
+                [
+                    { name: 'Maldini', num: 14, tit: 86 },
+                    { name: 'Calò', num: 14, tit: 89 },
+                    { name: 'Zielinski', num: 7, tit: 80 },
+                    { name: 'Anguissa', num: 99, tit: 94 }
+                ],
+                [
+                    { name: 'Lautaro', num: 10, tit: 98 },
+                    { name: 'Cutrone', num: 10, tit: 91 }
+                ]
+            ]
+        };
+
+        function renderPitch(mod) {
+            const container = document.getElementById('pitchRows');
+            container.innerHTML = '';
+            formations[mod].forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'pitch-row';
+                row.forEach(p => {
+                    rowDiv.innerHTML += `
+                        <div class="pitch-player">
+                            <div class="shirt-icon ${p.gk ? 'gk' : ''}">${p.num}</div>
+                            <div class="player-label">${p.name}</div>
+                            <div class="tit-bar"><div class="tit-fill" style="width:${p.tit}%"></div></div>
+                        </div>
+                    `;
+                });
+                container.appendChild(rowDiv);
+            });
+        }
+
+        function setFormation(mod, btn) {
+            document.querySelectorAll('.mod-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderPitch(mod);
+        }
+
+        // TOTOGIRRR LOGICA
+        let selectedBets = {};
+        function toggleBet(matchIdx, sign, odd, el) {
+            const parent = el.parentElement;
+            const alreadySelected = el.classList.contains('selected');
+            parent.querySelectorAll('.odd-btn').forEach(b => b.classList.remove('selected'));
+
+            if (alreadySelected) {
+                delete selectedBets[matchIdx];
+            } else {
+                el.classList.add('selected');
+                selectedBets[matchIdx] = odd;
+            }
+            updateSlip();
+        }
+
+        function updateSlip() {
+            const keys = Object.keys(selectedBets);
+            if (keys.length === 0) {
+                document.getElementById('totalOdd').innerText = '1.00';
+                document.getElementById('potentialWin').innerText = '0 FC';
                 return;
             }
-            replyDiv.style.display = "block";
-            replyDiv.innerHTML = "<strong>Tu:</strong> " + input + "<br><br><strong>Palermo Saint-Rosalia:</strong><br>Carichissimi per la prossima giornata!";
-            document.getElementById('userComment').value = "";
+            let total = 1;
+            keys.forEach(k => total *= selectedBets[k]);
+            document.getElementById('totalOdd').innerText = total.toFixed(2);
+            document.getElementById('potentialWin').innerText = Math.round(total * 10) + ' FC';
         }
+
+        function placeBet() {
+            const status = document.getElementById('betStatus');
+            if (Object.keys(selectedBets).length === 0) {
+                status.style.display = 'block';
+                status.style.color = '#fca5a5';
+                status.innerText = '⚠️ Seleziona almeno una quota prima di giocare!';
+                return;
+            }
+            let creditsEl = document.getElementById('userCredits');
+            let current = parseInt(creditsEl.innerText);
+            if (current >= 10) {
+                creditsEl.innerText = current - 10;
+                status.style.display = 'block';
+                status.style.color = '#6ee7b7';
+                status.innerText = '✅ Schedina registrata! Vincita potenziale: ' + document.getElementById('potentialWin').innerText;
+            }
+        }
+
+        // SOCIAL CURVA LOGICA
+        function likePost(el) {
+            el.classList.toggle('liked');
+            let countSpan = el.querySelector('span');
+            let num = parseInt(countSpan.innerText);
+            countSpan.innerText = el.classList.contains('liked') ? num + 1 : num - 1;
+        }
+
+        function publishPost() {
+            const input = document.getElementById('socialInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const feed = document.getElementById('socialFeed');
+            const newPost = `
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar" style="background:#f472b6;">PSR</div>
+                        <div class="post-meta">
+                            <h5>Palermo Saint-Rosalia (Tu)</h5>
+                            <span>Adesso</span>
+                        </div>
+                    </div>
+                    <div class="post-body">${text}</div>
+                    <div class="post-actions">
+                        <span class="like-btn" onclick="likePost(this)"><i class="fa-solid fa-heart"></i> <span>1</span> Mi piace</span>
+                    </div>
+                </div>
+            `;
+            feed.insertAdjacentHTML('afterbegin', newPost);
+            input.value = '';
+        }
+
+        // Avvio iniziale campo
+        renderPitch('4-3-3');
     </script>
 </body>
 </html>
