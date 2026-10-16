@@ -1,0 +1,20 @@
+SOCOCUP V5 - PRIMA BASE ONLINE DI SOCO X
+======================================
+Questo aggiornamento conserva calendario e tutte le pagine della V4.3.
+Modifica Soco X: niente più falsa identità selezionabile dal browser; struttura pronta per post e risposte online.
+
+STATO REALE: il social online NON funziona finché non configuri Supabase.
+1. Crea un progetto Supabase (con un adulto/amministratore della lega se necessario).
+2. Apri SQL Editor e incolla SETUP_DATABASE_V5.sql, poi eseguilo.
+3. In Authentication > Users crea/invita gli account delle 10 squadre.
+4. Associa ogni user_id alla squadra tramite insert SQL indicato in fondo al file SQL.
+5. In assets/supabase-config.js inserisci URL progetto e chiave PUBBLICA (anon/publishable).
+6. Carica social.html, assets/social-online.js e assets/supabase-config.js su GitHub.
+7. Prova con due dispositivi diversi: login, pubblicazione e commenti.
+
+ATTENZIONE: non pubblicare mai chiavi service_role, password o codici personali su GitHub.
+Gli account usano per ora email/password. I codici invito squadra richiesti sono da implementare tramite servizio server sicuro, non con codici nel JavaScript pubblico.
+Il database include RLS e un trigger che impedisce di pubblicare con un nome squadra arbitrario.
+Per moderazione, recupero account e notifiche serviranno sviluppi ulteriori.
+
+Non pubblicizzare ancora il portale al gruppo: V5 è una base tecnica, non un lancio completo.
