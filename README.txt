@@ -1,11 +1,9 @@
-SOCOCUP 2026/27 — VERSIONE DI PROVA
+SOCOCUP V2 — 2026/27
 
-1. Conserva lo ZIP di backup SocoCup-main.zip.
-2. Estrai questo ZIP sul telefono.
-3. In GitHub repository SocoCup, carica TUTTI i file e la cartella assets nella radice (non caricare la cartella contenitore SocoCup_Nuovo_Portale).
-4. index.html deve stare nella radice, accanto a campionato.html ecc.
-5. Controlla GitHub Pages: branch main, /(root).
-6. Attendi la pubblicazione, poi apri https://thetruerinella.github.io/SocoCup/ .
-7. Soco Social per ora e solo locale; calendari e rose non ancora importati.
+Carica TUTTI i file HTML nella radice del repository SocoCup.
+Carica assets/style.css, assets/data.js, assets/app.js nella cartella assets già esistente.
+Sostituisci i file precedenti con gli stessi nomi.
+Non caricare lo ZIP direttamente su GitHub Pages.
 
-Non caricare la cartella backup sul sito pubblico: contiene il vecchio HTML ed e inclusa solo per comodita.
+Funzionalità: navigazione, classifica, ricerca squadre, statistiche, calendario con stati non disponibili, Gazzetta editoriale, bacheca social locale con risposte.
+Non include backend, calendari o rose non verificati.
