@@ -12,7 +12,9 @@ let uid=null,team=null,teams=new Map(fallback.map((n,i)=>[i+1,n])),busy=false;
 const getAuthor=row=>row.user_id??row.author_id??row.profile_id;
 const getText=row=>row.content??row.body??row.text??row.message??'';
 const getPostRef=row=>row.post_id??row.postid;
-const displayName=row=>teams.get(Number(row.team_id))||'Fantasquadra';
+const authorTeams=new Map();
+const displayName=row=>teams.get(Number(row.team_id??authorTeams.get(getAuthor(row))))||'Fantasquadra';
+const avatar=(name)=>{const el=make('span','soco-avatar',name.trim().slice(0,2).toUpperCase());el.setAttribute('aria-hidden','true');return el};
 async function refresh(){
  msg('Caricamento dei post…');
  const result=await sb.from('sococup_posts').select('*').order('created_at',{ascending:false}).limit(50);
@@ -24,10 +26,13 @@ async function refresh(){
  if(!c.error)comments=c.data||[];
  const l=await sb.from('sococup_likes').select('*').in('post_id',ids).limit(2000);
  if(!l.error)likes=l.data||[];
+ const authors=[...new Set([...posts,...comments].map(getAuthor).filter(Boolean))];
+ if(authors.length){const profiles=await sb.from('sococup_profiles').select('user_id,team_id').in('user_id',authors);if(!profiles.error)for(const p of profiles.data||[])authorTeams.set(p.user_id,Number(p.team_id));}
+ if(uid&&team)authorTeams.set(uid,team);
  for(const post of posts){
- const card=make('article','soco-post');const head=make('div','soco-post-head');head.append(make('strong','',displayName(post)),make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
+ const card=make('article','soco-post');const head=make('div','soco-post-head');head.append(avatar(displayName(post)),make('strong','',displayName(post)),make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
  const own=getAuthor(post)===uid;
- if(own){const del=make('button','soco-small','Elimina post');del.type='button';del.addEventListener('click',async()=>{if(!confirm('Eliminare questo post?'))return;const r=await sb.from('sococup_posts').delete().eq('id',post.id).eq('user_id',uid);if(r.error)msg('Eliminazione non riuscita: '+r.error.message,true);else refresh()});card.append(del)}
+ if(own){const del=make('button','soco-small','Elimina post');del.type='button';del.addEventListener('click',async()=>{if(!confirm('Eliminare questo post?'))return;const r=await sb.from('sococup_posts').delete().eq('id',post.id).eq('author_id',uid);if(r.error)msg('Eliminazione non riuscita: '+r.error.message,true);else refresh()});card.append(del)}
  const related=comments.filter(x=>String(getPostRef(x))===String(post.id)),reaction=likes.filter(x=>String(getPostRef(x))===String(post.id));
  const actions=make('div','soco-actions');const like=make('button','soco-small',`♥ ${reaction.length} Mi piace`);like.type='button';const liked=reaction.some(x=>getAuthor(x)===uid);if(liked)like.classList.add('is-liked');like.disabled=!uid;
  like.addEventListener('click',async()=>{like.disabled=true;let r;if(liked){r=await sb.from('sococup_likes').delete().eq('post_id',post.id).eq('user_id',uid)}else{r=await sb.from('sococup_likes').insert({post_id:post.id,user_id:uid})}if(r.error){msg('Mi piace non salvato: '+r.error.message,true);like.disabled=false}else refresh()});actions.append(like);card.append(actions);
