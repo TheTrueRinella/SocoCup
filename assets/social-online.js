@@ -43,6 +43,6 @@ try{
  if(team){who.textContent='Stai scrivendo come '+teams.get(team);composer.hidden=false;login.hidden=true}else{uid=null;who.textContent='Puoi leggere la bacheca. Per pubblicare, accedi con la tua squadra.';composer.hidden=true;login.hidden=false}
  await refresh();
 }catch(e){msg('Errore di collegamento: '+(e.message||String(e)),true);login.hidden=false}
-form.addEventListener('submit',async ev=>{ev.preventDefault();if(!uid||!team||busy)return;const input=$('online-post-text'),content=input.value.trim();if(!content||content.length>500)return;busy=true;const btn=form.querySelector('button');btn.disabled=true;msg('Pubblicazione…');const r=await sb.from('sococup_posts').insert({user_id:uid,content});busy=false;btn.disabled=false;if(r.error){msg('Pubblicazione non riuscita: '+r.error.message,true)}else{input.value='';refresh()}});
+form.addEventListener('submit',async ev=>{ev.preventDefault();if(!uid||!team||busy)return;const input=$('online-post-text'),content=input.value.trim();if(!content||content.length>500)return;busy=true;const btn=form.querySelector('button');btn.disabled=true;msg('Pubblicazione…');const r=await sb.from('sococup_posts').insert({author_id:uid,content});busy=false;btn.disabled=false;if(r.error){msg('Pubblicazione non riuscita: '+r.error.message,true)}else{input.value='';refresh()}});
 });
 })();
