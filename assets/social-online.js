@@ -32,6 +32,18 @@ async function refresh(){
  if(uid&&team)authorTeams.set(uid,team);
  const selector=$('soco-team-filter');
  if(selector){selector.replaceChildren();const all=make('button','soco-filter'+(!activeTeam?' selected':''),'Tutti');all.type='button';all.onclick=()=>{activeTeam=0;refresh()};selector.append(all);for(const [id,name] of teams){const count=posts.filter(p=>teamId(p)===id).length;const btn=make('button','soco-filter'+(activeTeam===id?' selected':''),name+' · '+count);btn.type='button';btn.onclick=()=>{activeTeam=id;refresh()};selector.append(btn)}}
+ const profile=$('soco-profile');
+ if(profile){
+  profile.hidden=!activeTeam;
+  if(activeTeam){
+   const name=teams.get(activeTeam)||'Fantasquadra';
+   const count=posts.filter(p=>teamId(p)===activeTeam).length;
+   const n=$('soco-profile-name'),a=$('soco-profile-avatar'),s=$('soco-profile-stats'),back=$('soco-profile-back');
+   n.textContent=name;a.textContent=name.trim().slice(0,2).toUpperCase();
+   s.textContent=count+' '+(count===1?'post':'post')+' tra gli ultimi '+posts.length+' della lega';
+   back.onclick=()=>{activeTeam=0;refresh()};
+  }
+ }
  const visible=activeTeam?posts.filter(p=>teamId(p)===activeTeam):posts;
  if(!visible.length)feed.append(make('p','soco-empty','Nessun post pubblicato da questa squadra.'));
  for(const post of visible){
