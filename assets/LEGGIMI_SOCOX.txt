@@ -1,7 +1,0 @@
-SOCO X - ANTEPRIMA
-
-Questa versione usa le tabelle sococup_posts, sococup_comments e sococup_likes e il profilo sococup_profiles.
-Non eseguire SETUP_DATABASE_V5.sql: e uno schema precedente e non corrisponde a quello attuale.
-IMPORTANTE: verificare i nomi delle colonne e le regole RLS prima di pubblicare: il codice assume post.user_id, post.content, comment.user_id, comment.content, like.user_id e post_id.
-Se il database usa colonne differenti, la pagina mostrera un errore e non bisogna considerare la funzione pronta.
-Le modifiche non alterano il login.
