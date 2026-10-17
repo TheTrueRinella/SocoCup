@@ -1,0 +1,7 @@
+SOCOCUP - LOGIN INTEGRATO
+
+Carica il CONTENUTO di questa cartella nella radice del repository GitHub SocoCup, conservando la struttura assets/.
+Apri /SocoCup/login.html e verifica le cinque caselle.
+La sessione viene recuperata usando sococup_profiles.
+IMPORTANTE: Soco X resta temporaneamente disabilitato perché il codice V5 usa vecchie tabelle: non dichiarare attivi post e commenti prima di aggiornare le query e controllare le RLS.
+Non pubblicare i PIN. Ruota i PIN condivisi prima del lancio.

@@ -1,0 +1,5 @@
+SOCOCUP — AGGIORNAMENTO ANALISI ROSA
+
+Aggiunta analisi.html con selezione delle dieci squadre, giocatori già presenti in assets/data.js, collegamenti per cercare notizie, indicazione trasparente di dati mancanti. Nessuna percentuale o foto inventata. Non sono state modificate le funzioni Supabase, il login o il social-online.js.
+
+Per installare: caricare analisi.html nella radice del repository GitHub e aggiornare i file HTML modificati se si desidera il collegamento nel menu. Non è necessario alcun SQL.
