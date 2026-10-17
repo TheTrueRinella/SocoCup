@@ -25,9 +25,11 @@ async function refresh(){
  if(result.error){msg('Bacheca non disponibile: '+result.error.message,true);return}
  const posts=result.data||[];feed.replaceChildren();
  if(!posts.length){feed.append(make('p','', 'Ancora nessun post. Inaugura tu Soco X!'));msg('Bacheca pronta · nessun post pubblicato');return}
- const ids=posts.map(p=>p.id);let comments=[],likes=[];
+ const ids=posts.map(p=>p.id);let comments=[],likes=[],botComments=[];
  const c=await sb.from('sococup_comments').select('*').in('post_id',ids).order('created_at',{ascending:true}).limit(500);
  if(!c.error)comments=c.data||[];
+  const bc=await sb.from('sococup_bot_comments').select('id,post_id,bot_name,content,created_at').in('post_id',ids).order('created_at',{ascending:true}).limit(500);
+  if(!bc.error)botComments=bc.data||[];
  const l=await sb.from('sococup_likes').select('*').in('post_id',ids).limit(2000);
  if(!l.error)likes=l.data||[];
  const authors=[...new Set([...posts,...comments].map(getAuthor).filter(Boolean))];
@@ -57,7 +59,7 @@ async function refresh(){
  const related=comments.filter(x=>String(getPostRef(x))===String(post.id)),reaction=likes.filter(x=>String(getPostRef(x))===String(post.id));
  const actions=make('div','soco-actions');const like=make('button','soco-small',`♥ ${reaction.length} Mi piace`);like.type='button';const liked=reaction.some(x=>getAuthor(x)===uid);if(liked)like.classList.add('is-liked');like.disabled=!uid;
  like.addEventListener('click',async()=>{like.disabled=true;let r;if(liked){r=await sb.from('sococup_likes').delete().eq('post_id',post.id).eq('user_id',uid)}else{r=await sb.from('sococup_likes').insert({post_id:post.id,user_id:uid})}if(r.error){msg('Mi piace non salvato: '+r.error.message,true);like.disabled=false}else refresh()});actions.append(like);card.append(actions);
- const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+' · ');item.append(title,document.createTextNode(getText(comment)));discussion.append(item)}card.append(discussion);
+ const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+' · ');item.append(title,document.createTextNode(getText(comment)));discussion.append(item)}for(const botComment of botComments.filter(x=>String(x.post_id)===String(post.id))){const item=make('div','soco-comment soco-bot-comment');const title=make('strong','', '🤖 '+(botComment.bot_name||'SocoBot')+' · Bot · ');item.append(title,document.createTextNode(botComment.content||''));discussion.append(item)}card.append(discussion);
  if(uid){const cf=make('form','soco-comment-form');const input=make('input');input.type='text';input.maxLength=250;input.required=true;input.placeholder='Scrivi un commento…';input.setAttribute('aria-label','Commento al post');const submit=make('button','soco-small','Invia');submit.type='submit';cf.append(input,submit);cf.addEventListener('submit',async ev=>{ev.preventDefault();const content=input.value.trim();if(!content)return;submit.disabled=true;const r=await sb.from('sococup_comments').insert({post_id:post.id,author_id:uid,content});if(r.error){msg('Commento non pubblicato: '+r.error.message,true);submit.disabled=false}else refresh()});card.append(cf)}feed.append(card)
  }
  msg('Soco X · '+posts.length+' post caricati'+(activeTeam?' · filtro: '+teams.get(activeTeam):''));
