@@ -1,0 +1,20 @@
+SOCOCUP V33 — COMMUNITY SOCO X
+
+Aggiornamento incrementale sulla v32.
+
+1. Carica social.html nella radice del repository.
+2. Carica assets/social-online.js nella cartella assets.
+3. Carica i 20 file SVG nuovi nella cartella assets/avatars (mantieni i 5 precedenti).
+4. Fai commit e ricarica la pagina.
+
+COSA CAMBIA
+- Community ampliata da 5 a 25 personaggi virtuali con biografie e schede profilo.
+- Nuovi avatar illustrati e identificabili, NON foto di persone reali.
+- Resta attivo il doppio profilo introdotto nella v32 e la bacheca Supabase.
+
+NON INCLUSO
+- Nessuna risposta automatica nuova o post automatici: per questo serve una funzione server sicura, con moderazione, limiti e autorizzazioni Supabase.
+- Nessuna falsa identita di giornalisti, VIP o testate reali.
+- Nessuna modifica SQL richiesta da questa patch.
+
+Nota: per evitare di sovrascrivere modifiche fatte DOPO la v32, questa patch va usata solo se social.html e social-online.js sono ancora quelli della v32.
