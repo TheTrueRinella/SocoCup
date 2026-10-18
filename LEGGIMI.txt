@@ -1,8 +1,5 @@
-SocoCup v26 - Formazioni intelligenti
-Sostituisci solo analisi.html nel repository.
-- Titolari derivati dal campo: nessun elenco separato bloccato
-- Cambi modulo: i giocatori compatibili rimangono, gli altri passano in panchina se c'e spazio
-- Da scheda giocatore: aggiunta al primo posto libero del suo ruolo
-- Salva e ripristina: formazione confermata distinta dalla bozza
-- Portiere in alto
-- Le maglie dei club non verificati rimangono neutre.
+SOCOCUP v28 - Pronostici interattivi
+
+Sostituisci pronostici.html nel repository SocoCup. Richiede assets/partite-ufficiali.js già presente nel progetto.
+
+I pronostici si salvano solo sul dispositivo (localStorage). Non è una classifica online, non c’è denaro reale. Le giornate con tutti i risultati già registrati non sono modificabili. Per il blocco all’orario di inizio gara occorreranno orari verificati e backend.
