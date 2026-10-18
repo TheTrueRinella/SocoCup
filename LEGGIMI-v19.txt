@@ -1,0 +1,1 @@
+SocoCup v19 — sostituisci soltanto analisi.html nella root del repository. Campo orientato portiere -> attaccanti, layout responsive e maglie illustrate per club verificati. Le altre maglie sono neutre finché non viene verificata la squadra reale. Probabilità n/d finché non esiste una fonte dati attendibile.
