@@ -1,4 +1,1 @@
-SocoCup v22: aggiorna soltanto analisi.html.
-Nuove maglie stilizzate per 20 club, assegnazioni iniziali e selettore per correggere il club di ciascun giocatore.
-Le scelte sono salvate sul dispositivo, non sul server.
-Non modifica PIN, accessi, Soco X, rose o notizie.
+SocoCup v23: scelta giocatori in elenco verticale con maglie illustrate; opzione X in fondo. Sostituisci solo analisi.html. Basata su v22. Nessuna modifica al database.
