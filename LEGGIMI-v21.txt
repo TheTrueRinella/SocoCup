@@ -1,0 +1,3 @@
+SocoCup v21: carica SOLO analisi.html nella root GitHub.
+Novita: notizie dentro scheda per Svilar, fonti e date; stato contestualizzato alla giornata 7. Nessun dato live o percentuali inventate.
+Campo e login invariati.
