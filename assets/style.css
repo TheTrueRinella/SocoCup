@@ -3,3 +3,10 @@
 
 /* Soco X */
 .soco-post{background:#121e32;border:1px solid #34415b;border-radius:13px;padding:17px;margin:14px 0}.soco-post-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.soco-post-head strong{color:#f8b064}.soco-post-head small{color:#a8b4c9}.soco-post-body{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;margin:13px 0}.soco-actions{display:flex;gap:10px;margin:12px 0}.soco-small{border:1px solid #52617b;border-radius:9px;padding:9px 13px;background:#22314c;color:#f4f6fc;cursor:pointer}.soco-small.is-liked{color:#ff9c9c;border-color:#f17d7d}.soco-small:disabled{opacity:.5;cursor:wait}.soco-comments{display:grid;gap:7px}.soco-comment{padding:10px 12px;background:#0b1628;border-radius:8px;overflow-wrap:anywhere}.soco-comment strong{color:#ffbc80}.soco-comment-form{display:flex;gap:8px;margin-top:12px}.soco-comment-form input{min-width:0;flex:1;background:#0b1628;color:white;border:1px solid #4d5d78;border-radius:8px;padding:10px}.compose textarea{width:100%;background:#0b1628;color:white;border:1px solid #4d5d78;border-radius:9px;padding:12px;resize:vertical}.compose label{display:block;margin-bottom:9px}.compose button{margin-top:9px}@media(max-width:520px){.soco-comment-form{flex-direction:column}}
+
+/* Identità originali delle 10 fantasquadre · v10 */
+.team-line{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.team-line img{width:29px;height:29px;flex:none;object-fit:contain;border-radius:50%;background:#ffffff0b}
+.teamcard .teamcrest{height:64px;width:64px;min-width:64px;clip-path:none;background:#101828;border:1px solid #435477;border-radius:16px;overflow:hidden;padding:4px}
+.teamcard .teamcrest img{width:100%;height:100%;object-fit:contain}
+@media(max-width:740px){.team-line{gap:5px}.team-line img{width:24px;height:24px}}
