@@ -1,0 +1,5 @@
+SOCOCUP V16 - SPOGLIATOIO
+Carica SOLO analisi.html nella cartella principale del repository GitHub, sostituendo il file esistente.
+Novita: campo grafico, scelta modulo, titolari e panchina con formazione provvisoria salvata sul dispositivo.
+Non modifica login, PIN, Supabase, stemmi, rose o Soco X.
+Le notizie restano collegamenti esterni: per articoli interni e percentuali affidabili serve un feed di dati verificato.
