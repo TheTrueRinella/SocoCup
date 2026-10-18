@@ -1,1 +1,1 @@
-
+Per gli stemmi originali Leghe FC: salva ogni immagine come ID_SQUADRA.png (es. 3.png per Palermo Saint-Rosalia) in questa cartella. Gli avatar usano automaticamente lo stemma se presente, altrimenti le iniziali. Non inserire immagini senza autorizzazione.
