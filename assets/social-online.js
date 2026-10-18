@@ -7,7 +7,27 @@ const virtualPeople=[
  {name:'Giulia Moretti',handle:'@giulia_moretti',bio:'Serie A · Milan e analisi calcistiche',slug:'giulia-moretti'},
  {name:'Alessandro Ferri',handle:'@ale_ferri',bio:'Juventus · Mercato e trattative',slug:'alessandro-ferri'},
  {name:'Davide Conti',handle:'@davide_conti',bio:'Inter · Fantacalcio e bonus',slug:'davide-conti'},
- {name:'Luca Romano',handle:'@luca_romano',bio:'Napoli · Opinioni senza filtri',slug:'luca-romano'}
+ {name:'Luca Romano',handle:'@luca_romano',bio:'Napoli · Opinioni senza filtri',slug:'luca-romano'},
+ {name:'Sara Bellini',handle:'@sara_bellini',bio:'Tifosa rosanero · Commenti e ironia',slug:'sara-bellini'},
+ {name:'Pietro Mancini',handle:'@pietro_mancini',bio:'Fantacalcio · Analisi delle giornate',slug:'pietro-mancini'},
+ {name:'Elena Costa',handle:'@elena_costa',bio:'Calcio italiano · Opinioni e curiosità',slug:'elena-costa'},
+ {name:'Simone Vitale',handle:'@simone_vitale',bio:'Tifoso · Battute da spogliatoio',slug:'simone-vitale'},
+ {name:'Chiara Greco',handle:'@chiara_greco',bio:'Serie A · Numeri e statistiche',slug:'chiara-greco'},
+ {name:'Andrea Rizzo',handle:'@andrea_rizzo',bio:'SocoCup · Tifoso appassionato',slug:'andrea-rizzo'},
+ {name:'Valentina Serra',handle:'@valentina_serra',bio:'Calcio e cultura sportiva',slug:'valentina-serra'},
+ {name:'Matteo Caruso',handle:'@matteo_caruso',bio:'Commenti dopo ogni giornata',slug:'matteo-caruso'},
+ {name:'Francesca De Luca',handle:'@francesca_deluca',bio:'Calcio femminile e Serie A',slug:'francesca-deluca'},
+ {name:'Riccardo Gallo',handle:'@riccardo_gallo',bio:'Fantacalcio · Difensori e bonus',slug:'riccardo-gallo'},
+ {name:'Marta Orlando',handle:'@marta_orlando',bio:'SocoCup · Pagelle e curiosità',slug:'marta-orlando'},
+ {name:'Nicola Ferrara',handle:'@nicola_ferrara',bio:'Calcio · Cronache virtuali',slug:'nicola-ferrara'},
+ {name:'Alessia Marino',handle:'@alessia_marino',bio:'Tifosa · Umorismo calcistico',slug:'alessia-marino'},
+ {name:'Giorgio Fontana',handle:'@giorgio_fontana',bio:'SocoCup · Analisi tattica',slug:'giorgio-fontana'},
+ {name:'Federica Bruno',handle:'@federica_bruno',bio:'Fantacalcio · Formazioni',slug:'federica-bruno'},
+ {name:'Stefano Messina',handle:'@stefano_messina',bio:'Tifoso · Sfottò bonari',slug:'stefano-messina'},
+ {name:'Irene Romano',handle:'@irene_romano',bio:'Calcio italiano · Discussioni',slug:'irene-romano'},
+ {name:'Lorenzo Sala',handle:'@lorenzo_sala',bio:'SocoCup · Curiosità statistiche',slug:'lorenzo-sala'},
+ {name:'Beatrice Leone',handle:'@beatrice_leone',bio:'Tifosa · Reazioni alle partite',slug:'beatrice-leone'},
+ {name:'Tommaso Villa',handle:'@tommaso_villa',bio:'Fantacalcio · Opinioni',slug:'tommaso-villa'}
 ];
 const virtualByName=new Map(virtualPeople.map(p=>[p.name,p]));
 function virtualAvatar(p,small=false){const im=document.createElement('img');im.className='virtual-avatar'+(small?' sm':'');im.src='assets/avatars/'+p.slug+'.svg';im.alt='';im.loading='lazy';return im}
