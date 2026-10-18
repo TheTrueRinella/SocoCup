@@ -1,0 +1,9 @@
+SOCOCUP V32 — DOPPIO PROFILO SU SOCO X
+
+1. Supabase > SQL Editor: esegui il contenuto di SOCOX-V32-AGGIORNAMENTO.sql una sola volta.
+2. GitHub: sostituisci social.html e assets/social-online.js.
+3. Fai Commit e ricarica Soco X (eventualmente svuota la cache).
+4. Accedi: sopra il campo del post compare il selettore Squadra / Profilo personale.
+5. Inserisci il tuo nome personale con il pulsante Modifica nome personale.
+
+NOTE: Il nome personale viene salvato nel browser e allegato a ogni NUOVO post/commento, visibile a tutti. La scelta del nome non è ancora sincronizzata tra dispositivi. I vecchi contenuti restano della squadra. La spunta significa squadra ufficiale DELLA LEGA, non account verificato da social esterni. Non cambia il login. Non include ancora bot automatici.
