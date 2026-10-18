@@ -1,0 +1,8 @@
+SocoCup v31 - Eliminazione dei propri commenti in Soco X
+
+Carica assets/social-online.js nel repository sostituendo il file omonimo.
+
+Il pulsante Elimina compare sui commenti attribuiti all’utente autenticato.
+Il database Supabase deve consentire DELETE sui propri commenti tramite RLS.
+I commenti storici con autore non associato all’utente non vengono attribuiti automaticamente.
+Questa patch NON implementa ancora i due profili personali/squadra: richiede migrazione database.
