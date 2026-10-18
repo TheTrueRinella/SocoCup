@@ -30,7 +30,10 @@ const teamId=row=>Number(row.team_id??authorTeams.get(getAuthor(row)))||0;
 const palettes=[['#e8b83b','#16191d'],['#d82c45','#202b43'],['#f2b8d8','#151515'],['#ff9b44','#421d25'],['#8b64ff','#202a64'],['#f7d04b','#183b48'],['#8ce0d1','#214c4c'],['#e95d4f','#212a3e'],['#efbd80','#6b304a'],['#f3cb50','#a23532']];
 const themeFor=id=>{const p=palettes[(Number(id)-1+palettes.length)%palettes.length];return {primary:p[0],secondary:p[1]}};
 const applyTheme=(el,id)=>{const t=themeFor(id);el.style.setProperty('--team-primary',t.primary);el.style.setProperty('--team-secondary',t.secondary)};
-const avatar=(name,id)=>{const el=make('span','soco-avatar',name.trim().slice(0,2).toUpperCase());applyTheme(el,id);el.setAttribute('aria-hidden','true');const logo='assets/teams-logos/'+Number(id)+'.png';const im=document.createElement('img');im.src=logo;im.alt='';im.loading='lazy';im.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%';im.onload=()=>{el.textContent='';el.append(im)};return el};
+const logoCache=new Map();
+function teamLogo(id){const n=Number(id);if(!Number.isInteger(n)||n<1||n>10)return '';if(!logoCache.has(n)){const src='assets/teams-logos/'+n+'.png';const preload=new Image();preload.src=src;logoCache.set(n,src)}return logoCache.get(n)}
+for(let i=1;i<=10;i++)teamLogo(i);
+const avatar=(name,id)=>{const el=make('span','soco-avatar');applyTheme(el,id);el.setAttribute('aria-hidden','true');const fallback=make('span','soco-avatar-fallback',(name||'?').trim().slice(0,2).toUpperCase());el.append(fallback);const logo=teamLogo(id);if(logo){const im=document.createElement('img');im.alt='';im.loading='eager';im.decoding='async';im.src=logo;im.addEventListener('load',()=>{fallback.hidden=true},{once:true});im.addEventListener('error',()=>{im.remove();fallback.hidden=false},{once:true});el.append(im)}return el};
 async function refresh(){
  msg('Caricamento dei post…');
  const result=await sb.from('sococup_posts').select('*').order('created_at',{ascending:false}).limit(50);
