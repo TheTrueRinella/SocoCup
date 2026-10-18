@@ -1,0 +1,12 @@
+(()=>{'use strict';
+const list=()=>Array.isArray(window.SOCO_FIXTURES)?window.SOCO_FIXTURES:[];
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const scored=m=>Number.isFinite(Number(m.hg))&&Number.isFinite(Number(m.ag))&&m.hg!==null&&m.ag!==null&&m.hg!==''&&m.ag!=='';
+const match=m=>`<div class="v29-match"><span class="v29-team">${escape(m.home)}</span><strong class="v29-score">${scored(m)?escape(m.hg)+' – '+escape(m.ag):'—'}</strong><span class="v29-team v29-away">${escape(m.away)}</span></div>`;
+const rounds=Array.from({length:36},(_,i)=>i+1);
+function renderRound(n){const matches=list().filter(m=>Number(m.round)===n);const target=document.getElementById('rounddetail');if(!target)return;
+const sa=matches[0]?.serieARound;target.classList.remove('empty');target.innerHTML=`<div class="v29-round-title"><strong>Giornata ${n}</strong><span>${sa?'Serie A · turno '+escape(sa):''}</span></div>${matches.length?matches.map(match).join(''):'<p>Partite non disponibili.</p>'}`;
+document.querySelectorAll('[data-v29-round]').forEach(b=>{b.classList.toggle('selected',Number(b.dataset.v29Round)===n);b.setAttribute('aria-pressed',String(Number(b.dataset.v29Round)===n))});}
+function initCalendar(){const root=document.getElementById('rounds');if(!root)return;root.innerHTML=rounds.map(n=>`<button type="button" class="v29-round-btn" data-v29-round="${n}" aria-pressed="false">${n}</button>`).join('');root.addEventListener('click',e=>{const btn=e.target.closest('[data-v29-round]');if(btn)renderRound(Number(btn.dataset.v29Round))});renderRound(1)}
+function initHome(){const el=document.getElementById('v29-home-fixtures');if(!el)return;const all=list();const latest=Math.max(1,...all.filter(scored).map(m=>Number(m.round)||1));const next=Math.min(36,latest+1);const selected=all.filter(m=>Number(m.round)===next);el.innerHTML=`<div class="v29-round-title"><strong>Giornata ${next}</strong><span>${selected[0]?.serieARound?'Serie A · turno '+escape(selected[0].serieARound):''}</span></div>${selected.map(match).join('')||'<p>Calendario in aggiornamento.</p>'}<a class="v29-fixture-link" href="campionato.html">Apri calendario e risultati →</a>`;}
+document.addEventListener('DOMContentLoaded',()=>{initCalendar();initHome()});})();
