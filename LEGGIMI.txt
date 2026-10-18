@@ -1,6 +1,8 @@
-SocoCup v25: sostituisci solo analisi.html nel repository GitHub.
-Salva formazione: salva 11 titolari e panchina separatamente dalla bozza.
-Ripristina salvata: recupera la formazione salvata.
-Cambio modulo: mantiene i giocatori compatibili; eventuali esclusi vengono spostati in panchina se c'e posto.
-Portiere in alto. Gollini non viene piu associato automaticamente alla Roma.
-Nota: associazioni maglie non ancora tutte verificate.
+SocoCup v26 - Formazioni intelligenti
+Sostituisci solo analisi.html nel repository.
+- Titolari derivati dal campo: nessun elenco separato bloccato
+- Cambi modulo: i giocatori compatibili rimangono, gli altri passano in panchina se c'e spazio
+- Da scheda giocatore: aggiunta al primo posto libero del suo ruolo
+- Salva e ripristina: formazione confermata distinta dalla bozza
+- Portiere in alto
+- Le maglie dei club non verificati rimangono neutre.
