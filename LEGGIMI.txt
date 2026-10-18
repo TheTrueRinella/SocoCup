@@ -1,1 +1,6 @@
-SocoCup v23: scelta giocatori in elenco verticale con maglie illustrate; opzione X in fondo. Sostituisci solo analisi.html. Basata su v22. Nessuna modifica al database.
+SocoCup v25: sostituisci solo analisi.html nel repository GitHub.
+Salva formazione: salva 11 titolari e panchina separatamente dalla bozza.
+Ripristina salvata: recupera la formazione salvata.
+Cambio modulo: mantiene i giocatori compatibili; eventuali esclusi vengono spostati in panchina se c'e posto.
+Portiere in alto. Gollini non viene piu associato automaticamente alla Roma.
+Nota: associazioni maglie non ancora tutte verificate.
