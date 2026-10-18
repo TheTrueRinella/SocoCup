@@ -21,11 +21,29 @@ const formatDate=v=>{try{return new Date(v).toLocaleString('it-IT',{dateStyle:'m
 if(!window.supabase){msg('Libreria Supabase non caricata. Riprova aggiornando la pagina.',true);return}
 const sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 let uid=null,team=null,teams=new Map(fallback.map((n,i)=>[i+1,n])),busy=false,activeTeam=0;
+let personalName='', postingAs='team';
+const identityName=row=>row.identity_type==='personal'&&row.display_name?row.display_name:null;
+function identityPicker(){
+ const host=$('soco-identity-panel');if(!host||!team)return;
+ host.hidden=false;host.replaceChildren();
+ const title=make('strong','','Pubblica come');host.append(title);
+ const select=make('select','soco-identity-select');select.setAttribute('aria-label','Identità per post e commenti');
+ const optionTeam=make('option','',teams.get(team)+' · Squadra ufficiale ✓');optionTeam.value='team';
+ const optionPerson=make('option','',personalName?personalName+' · Allenatore / tifoso':'Profilo personale · Imposta nome');optionPerson.value='personal';
+ select.append(optionTeam,optionPerson);select.value=postingAs;
+ select.onchange=()=>{postingAs=select.value;localStorage.setItem('soco_identity_'+uid,postingAs);if(postingAs==='personal'&&!personalName)editName();};
+ const edit=make('button','soco-small','Modifica nome personale');edit.type='button';edit.onclick=editName;
+ const hint=make('small','','La scelta vale per i nuovi post e commenti. I vecchi contenuti restano della squadra.');
+ host.append(select,edit,hint);
+ function editName(){const name=prompt('Nome e cognome da mostrare su Soco X (max 60 caratteri):',personalName);if(name===null)return;const clean=name.trim().replace(/\s+/g,' ').slice(0,60);if(!clean){alert('Inserisci un nome prima di usare il profilo personale.');postingAs='team';select.value='team';return}personalName=clean;localStorage.setItem('soco_personal_name_'+uid,clean);optionPerson.textContent=clean+' · Allenatore / tifoso';}
+}
+function identityPayload(){if(postingAs==='personal'){if(!personalName){alert('Imposta prima il tuo nome personale.');return null}return {identity_type:'personal',display_name:personalName}}return {identity_type:'team',display_name:null}}
+
 const getAuthor=row=>row.user_id??row.author_id??row.profile_id;
 const getText=row=>row.content??row.body??row.text??row.message??'';
 const getPostRef=row=>row.post_id??row.postid;
 const authorTeams=new Map();
-const displayName=row=>teams.get(Number(row.team_id??authorTeams.get(getAuthor(row))))||'Fantasquadra';
+const displayName=row=>identityName(row)||teams.get(Number(row.team_id??authorTeams.get(getAuthor(row))))||'Fantasquadra';
 const teamId=row=>Number(row.team_id??authorTeams.get(getAuthor(row)))||0;
 const palettes=[['#e8b83b','#16191d'],['#d82c45','#202b43'],['#f2b8d8','#151515'],['#ff9b44','#421d25'],['#8b64ff','#202a64'],['#f7d04b','#183b48'],['#8ce0d1','#214c4c'],['#e95d4f','#212a3e'],['#efbd80','#6b304a'],['#f3cb50','#a23532']];
 const themeFor=id=>{const p=palettes[(Number(id)-1+palettes.length)%palettes.length];return {primary:p[0],secondary:p[1]}};
@@ -67,14 +85,14 @@ async function refresh(){
  const visible=activeTeam?posts.filter(p=>teamId(p)===activeTeam):posts;
  if(!visible.length)feed.append(make('p','soco-empty','Nessun post pubblicato da questa squadra.'));
  for(const post of visible){
- const card=make('article','soco-post');applyTheme(card,teamId(post));const head=make('div','soco-post-head');head.append(avatar(displayName(post),teamId(post)));
- const authorButton=make('button','soco-author',displayName(post));authorButton.type='button';authorButton.title='Vedi i post di '+displayName(post);authorButton.onclick=()=>{activeTeam=teamId(post);refresh();document.getElementById('soco-team-filter')?.scrollIntoView({behavior:'smooth',block:'start'})};head.append(authorButton,make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
+ const card=make('article','soco-post');applyTheme(card,teamId(post));const head=make('div','soco-post-head');head.append(post.identity_type==='personal'?make('span','soco-person-avatar','👤'):avatar(displayName(post),teamId(post)));
+ const authorButton=make('button','soco-author',displayName(post));authorButton.type='button';authorButton.title='Vedi i post di '+displayName(post);authorButton.onclick=()=>{activeTeam=teamId(post);refresh();document.getElementById('soco-team-filter')?.scrollIntoView({behavior:'smooth',block:'start'})};if(post.identity_type!=='personal')head.append(make('span','soco-official','✓ Squadra ufficiale'));else head.append(make('span','soco-person-tag','Allenatore / tifoso'));head.append(authorButton,make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
  const own=getAuthor(post)===uid;
  if(own){const del=make('button','soco-small','Elimina post');del.type='button';del.addEventListener('click',async()=>{if(!confirm('Eliminare questo post?'))return;const r=await sb.from('sococup_posts').delete().eq('id',post.id).eq('author_id',uid);if(r.error)msg('Eliminazione non riuscita: '+r.error.message,true);else refresh()});card.append(del)}
  const related=comments.filter(x=>String(getPostRef(x))===String(post.id)),reaction=likes.filter(x=>String(getPostRef(x))===String(post.id));
  const actions=make('div','soco-actions');const like=make('button','soco-small',`♥ ${reaction.length} Mi piace`);like.type='button';const liked=reaction.some(x=>getAuthor(x)===uid);if(liked)like.classList.add('is-liked');like.disabled=!uid;
  like.addEventListener('click',async()=>{like.disabled=true;let r;if(liked){r=await sb.from('sococup_likes').delete().eq('post_id',post.id).eq('user_id',uid)}else{r=await sb.from('sococup_likes').insert({post_id:post.id,user_id:uid})}if(r.error){msg('Mi piace non salvato: '+r.error.message,true);like.disabled=false}else refresh()});actions.append(like);card.append(actions);
- const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+' · ');item.append(title,document.createTextNode(getText(comment)));
+ const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+(comment.identity_type==='personal'?' · Allenatore/tifoso · ':' · ✓ Squadra · '));item.append(title,document.createTextNode(getText(comment)));
  // Show the action only for comments owned by the authenticated user.
  if(uid&&String(getAuthor(comment))===String(uid)){
   const remove=make('button','soco-small soco-delete-comment','Elimina');remove.type='button';remove.setAttribute('aria-label','Elimina il tuo commento');
@@ -90,7 +108,7 @@ async function refresh(){
   });item.append(remove)
  }
  discussion.append(item)}for(const botComment of botComments.filter(x=>String(x.post_id)===String(post.id))){const item=make('div','soco-comment soco-bot-comment');const p=virtualByName.get(botComment.bot_name);if(p){item.append(virtualAvatar(p,true));const block=make('div','virtual-comment-text');const name=make('button','virtual-name',p.name);name.type='button';name.onclick=()=>openVirtualProfile(p);block.append(name,make('span','virtual-handle',' · '+p.handle));block.append(make('div','',botComment.content||''));item.append(block)}else{const block=make('div','virtual-comment-text');block.append(make('strong','',botComment.bot_name||'Profilo virtuale'),make('div','',botComment.content||''));item.append(block)}discussion.append(item)}card.append(discussion);
- if(uid){const cf=make('form','soco-comment-form');const input=make('input');input.type='text';input.maxLength=250;input.required=true;input.placeholder='Scrivi un commento…';input.setAttribute('aria-label','Commento al post');const submit=make('button','soco-small','Invia');submit.type='submit';cf.append(input,submit);cf.addEventListener('submit',async ev=>{ev.preventDefault();const content=input.value.trim();if(!content)return;submit.disabled=true;const r=await sb.from('sococup_comments').insert({post_id:post.id,author_id:uid,content});if(r.error){msg('Commento non pubblicato: '+r.error.message,true);submit.disabled=false}else refresh()});card.append(cf)}feed.append(card)
+ if(uid){const cf=make('form','soco-comment-form');const input=make('input');input.type='text';input.maxLength=250;input.required=true;input.placeholder='Scrivi un commento…';input.setAttribute('aria-label','Commento al post');const submit=make('button','soco-small','Invia');submit.type='submit';cf.append(input,submit);cf.addEventListener('submit',async ev=>{ev.preventDefault();const content=input.value.trim();if(!content)return;submit.disabled=true;const identity=identityPayload();if(!identity){submit.disabled=false;return}const r=await sb.from('sococup_comments').insert({post_id:post.id,author_id:uid,content,...identity});if(r.error){msg('Commento non pubblicato: '+r.error.message+' (verifica il file SQL della v32)',true);submit.disabled=false}else refresh()});card.append(cf)}feed.append(card)
  }
  msg('Soco X · '+posts.length+' post caricati'+(activeTeam?' · filtro: '+teams.get(activeTeam):''));
 }
@@ -98,9 +116,9 @@ try{
  const sessionResult=await sb.auth.getSession();const session=sessionResult.data?.session;
  if(session){uid=session.user.id;const profile=await sb.from('sococup_profiles').select('team_id').eq('user_id',uid).maybeSingle();if(profile.error)throw profile.error;if(profile.data?.team_id){team=Number(profile.data.team_id)}}
  const names=await sb.from('sococup_teams').select('id,name');if(!names.error)for(const t of names.data||[])teams.set(Number(t.id),t.name);
- if(team){who.textContent='Stai scrivendo come '+teams.get(team);composer.hidden=false;login.hidden=true}else{uid=null;who.textContent='Puoi leggere la bacheca. Per pubblicare, accedi con la tua squadra.';composer.hidden=true;login.hidden=false}
+ if(team){personalName=localStorage.getItem('soco_personal_name_'+uid)||'';postingAs=localStorage.getItem('soco_identity_'+uid)||'team';identityPicker();who.textContent='Account collegato: '+teams.get(team); composer.hidden=false;login.hidden=true}else{uid=null;who.textContent='Puoi leggere la bacheca. Per pubblicare, accedi con la tua squadra.';composer.hidden=true;login.hidden=false}
  await refresh();
 }catch(e){msg('Errore di collegamento: '+(e.message||String(e)),true);login.hidden=false}
-form.addEventListener('submit',async ev=>{ev.preventDefault();if(!uid||!team||busy)return;const input=$('online-post-text'),content=input.value.trim();if(!content||content.length>500)return;busy=true;const btn=form.querySelector('button');btn.disabled=true;msg('Pubblicazione…');const r=await sb.from('sococup_posts').insert({author_id:uid,content});busy=false;btn.disabled=false;if(r.error){msg('Pubblicazione non riuscita: '+r.error.message,true)}else{input.value='';refresh()}});
+form.addEventListener('submit',async ev=>{ev.preventDefault();if(!uid||!team||busy)return;const input=$('online-post-text'),content=input.value.trim();if(!content||content.length>500)return;busy=true;const btn=form.querySelector('button');btn.disabled=true;msg('Pubblicazione…');const identity=identityPayload();if(!identity){busy=false;btn.disabled=false;return}const r=await sb.from('sococup_posts').insert({author_id:uid,content,...identity});busy=false;btn.disabled=false;if(r.error){msg('Pubblicazione non riuscita: '+r.error.message+' (verifica di aver applicato il file SQL della v32)',true)}else{input.value='';refresh()}});
 });
 })();
