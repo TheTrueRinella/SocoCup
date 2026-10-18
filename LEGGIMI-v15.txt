@@ -1,0 +1,5 @@
+SocoCup v15 - Aggiornamento mirato
+Carica soltanto analisi.html nella root del repository GitHub, sovrascrivendo quello esistente.
+Aggiunge selezione provvisoria fino a 11 giocatori, memorizzata solo nel browser, e chiarisce che probabilita e disponibilita non sono verificate.
+Mantiene rose, filtri, accesso e schede giocatori. Non altera Supabase.
+Le notizie aprono una ricerca su Google News, non un feed integrato.
