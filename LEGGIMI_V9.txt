@@ -1,0 +1,1 @@
+SocoCup v9: aggiunto link Torna a SocoCup su Soco X (desktop e mobile); predisposti avatar delle squadre da assets/team-logos/<ID>.png. Gli stemmi Leghe FC NON sono inclusi: servono immagini fornite dall’utente. Sostituire i file su GitHub mantenendo le cartelle.
