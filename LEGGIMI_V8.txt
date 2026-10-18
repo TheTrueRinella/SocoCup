@@ -1,0 +1,10 @@
+SOCOCUP V8 - NAVIGAZIONE
+
+- Analisi Rosa aggiunta al menu delle pagine principali e alla Home.
+- Collegamento Pronostici rimosso dalla navigazione principale e sostituito con Analisi Rosa.
+- Le vecchie pagine e i dati rimangono nel progetto, nessuna eliminazione del database.
+- Analisi Rosa ora ha menu completo, pulsante mobile e link Accedi/Esci gestito da session-ui.js.
+- Senza accesso si possono consultare tutte le rose; con accesso viene selezionata la squadra dell’account.
+- Notizie e probabili formazioni sono link a ricerche esterne, non dati live o percentuali calcolate.
+
+Installazione: caricare i file dello ZIP nella root del repository mantenendo assets/.
