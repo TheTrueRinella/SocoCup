@@ -1,0 +1,7 @@
+SOCOCUP v29 - Home Match Center e Calendario 36 giornate
+
+Carica index.html e campionato.html nella radice del repository e i due file .js/.css dentro assets/. NON cancellare altri file.
+
+Mantiene le 180 partite in assets/partite-ufficiali.js. Le giornate senza risultati mostrano —. Importazione calendario nascosta in sezione richiudibile. Non modifica login, Soco X, analisi o pronostici.
+
+Soco X 2.0 (bot, fonti, media autorizzati) e grafica completa rimangono in programma; non sono inclusi in questa patch.
