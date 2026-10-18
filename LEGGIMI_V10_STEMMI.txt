@@ -1,0 +1,21 @@
+SOCOCUP v10 — STEMMI ORIGINALI LEGHE FC
+
+Importate 10 immagini squadre (assets/team-logos/1.png ... 10.png) e 10 maglie (assets/team-kits/1.png ... 10.png).
+
+ID squadre:
+1 Berlusca Dortmund (immagine dalla cartella Leghe FC «Berlusa Dortmund»)
+2 STOKE AZZO
+3 Palermo Saint-Rosalia
+4 Hertavernello
+5 Aston Birra
+6 Lamin Kiadura
+7 ipsiwich down
+8 Vecio Lanificio Rossi United
+9 palermo (squadra diversa da Saint-Rosalia)
+10 Ciccio Kebab FC
+
+Gli stemmi compaiono su Soco X (post/profili), nella classifica e nelle schede Squadre.
+Le immagini delle maglie sono salvate per future pagine squadra.
+Non modificati database, PIN, accesso o contenuti Soco X.
+
+INSTALLAZIONE: carica i file dello ZIP nella RADICE del repository SocoCup, preservando i percorsi. La cartella corretta per gli stemmi è assets/team-logos, già contenuta nello ZIP (NON crearne una «teams-logos» separata).
