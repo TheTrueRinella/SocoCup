@@ -1,0 +1,5 @@
+SOCOCUP V20
+Sostituisci solo analisi.html nella root del repository GitHub.
+Campo: portiere in alto, poi difensori, centrocampisti, attaccanti.
+Maglie gia presenti conservate; associazioni club mancanti restano neutre.
+Nessuna modifica a PIN, login, Supabase o Soco X.
