@@ -74,7 +74,22 @@ async function refresh(){
  const related=comments.filter(x=>String(getPostRef(x))===String(post.id)),reaction=likes.filter(x=>String(getPostRef(x))===String(post.id));
  const actions=make('div','soco-actions');const like=make('button','soco-small',`♥ ${reaction.length} Mi piace`);like.type='button';const liked=reaction.some(x=>getAuthor(x)===uid);if(liked)like.classList.add('is-liked');like.disabled=!uid;
  like.addEventListener('click',async()=>{like.disabled=true;let r;if(liked){r=await sb.from('sococup_likes').delete().eq('post_id',post.id).eq('user_id',uid)}else{r=await sb.from('sococup_likes').insert({post_id:post.id,user_id:uid})}if(r.error){msg('Mi piace non salvato: '+r.error.message,true);like.disabled=false}else refresh()});actions.append(like);card.append(actions);
- const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+' · ');item.append(title,document.createTextNode(getText(comment)));discussion.append(item)}for(const botComment of botComments.filter(x=>String(x.post_id)===String(post.id))){const item=make('div','soco-comment soco-bot-comment');const p=virtualByName.get(botComment.bot_name);if(p){item.append(virtualAvatar(p,true));const block=make('div','virtual-comment-text');const name=make('button','virtual-name',p.name);name.type='button';name.onclick=()=>openVirtualProfile(p);block.append(name,make('span','virtual-handle',' · '+p.handle));block.append(make('div','',botComment.content||''));item.append(block)}else{const block=make('div','virtual-comment-text');block.append(make('strong','',botComment.bot_name||'Profilo virtuale'),make('div','',botComment.content||''));item.append(block)}discussion.append(item)}card.append(discussion);
+ const discussion=make('div','soco-comments');for(const comment of related){const item=make('div','soco-comment');applyTheme(item,teamId(comment));const title=make('strong','',displayName(comment)+' · ');item.append(title,document.createTextNode(getText(comment)));
+ // Show the action only for comments owned by the authenticated user.
+ if(uid&&String(getAuthor(comment))===String(uid)){
+  const remove=make('button','soco-small soco-delete-comment','Elimina');remove.type='button';remove.setAttribute('aria-label','Elimina il tuo commento');
+  remove.style.cssText='display:inline-block;margin-left:8px;font-size:12px;text-decoration:underline;';
+  remove.addEventListener('click',async()=>{
+   if(!confirm('Vuoi eliminare questo commento?'))return;
+   remove.disabled=true;
+   const ownerColumn=comment.author_id!=null?'author_id':comment.user_id!=null?'user_id':'profile_id';
+   const result=await sb.from('sococup_comments').delete().eq('id',comment.id).eq(ownerColumn,uid).select('id');
+   if(result.error){msg('Impossibile eliminare il commento: '+result.error.message,true);remove.disabled=false;return}
+   if(!result.data?.length){msg('Commento non eliminato: controlla i permessi del database.',true);remove.disabled=false;return}
+   await refresh();
+  });item.append(remove)
+ }
+ discussion.append(item)}for(const botComment of botComments.filter(x=>String(x.post_id)===String(post.id))){const item=make('div','soco-comment soco-bot-comment');const p=virtualByName.get(botComment.bot_name);if(p){item.append(virtualAvatar(p,true));const block=make('div','virtual-comment-text');const name=make('button','virtual-name',p.name);name.type='button';name.onclick=()=>openVirtualProfile(p);block.append(name,make('span','virtual-handle',' · '+p.handle));block.append(make('div','',botComment.content||''));item.append(block)}else{const block=make('div','virtual-comment-text');block.append(make('strong','',botComment.bot_name||'Profilo virtuale'),make('div','',botComment.content||''));item.append(block)}discussion.append(item)}card.append(discussion);
  if(uid){const cf=make('form','soco-comment-form');const input=make('input');input.type='text';input.maxLength=250;input.required=true;input.placeholder='Scrivi un commento…';input.setAttribute('aria-label','Commento al post');const submit=make('button','soco-small','Invia');submit.type='submit';cf.append(input,submit);cf.addEventListener('submit',async ev=>{ev.preventDefault();const content=input.value.trim();if(!content)return;submit.disabled=true;const r=await sb.from('sococup_comments').insert({post_id:post.id,author_id:uid,content});if(r.error){msg('Commento non pubblicato: '+r.error.message,true);submit.disabled=false}else refresh()});card.append(cf)}feed.append(card)
  }
  msg('Soco X · '+posts.length+' post caricati'+(activeTeam?' · filtro: '+teams.get(activeTeam):''));
