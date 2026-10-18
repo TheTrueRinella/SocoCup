@@ -1,0 +1,4 @@
+SocoCup v30 — installazione rapida
+Sostituisci index.html e campionato.html nella root; carica i due file sococup-v30.css e sococup-v30.js dentro assets/. Non cancellare i file v29: altre pagine potrebbero ancora usarli.
+Novità: vincitore in grassetto, pareggi normali, loghi squadre, nome Palermo Saint-Rosalia senza spezzatura interna, collegamento SocoBet nel menu delle pagine aggiornate.
+Nota: altre pagine con un menu autonomo richiederanno un aggiornamento dedicato del relativo HTML.
