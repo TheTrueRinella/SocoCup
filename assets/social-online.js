@@ -30,7 +30,7 @@ const teamId=row=>Number(row.team_id??authorTeams.get(getAuthor(row)))||0;
 const palettes=[['#e8b83b','#16191d'],['#d82c45','#202b43'],['#f2b8d8','#151515'],['#ff9b44','#421d25'],['#8b64ff','#202a64'],['#f7d04b','#183b48'],['#8ce0d1','#214c4c'],['#e95d4f','#212a3e'],['#efbd80','#6b304a'],['#f3cb50','#a23532']];
 const themeFor=id=>{const p=palettes[(Number(id)-1+palettes.length)%palettes.length];return {primary:p[0],secondary:p[1]}};
 const applyTheme=(el,id)=>{const t=themeFor(id);el.style.setProperty('--team-primary',t.primary);el.style.setProperty('--team-secondary',t.secondary)};
-const avatar=(name,id)=>{const el=make('span','soco-avatar',name.trim().slice(0,2).toUpperCase());applyTheme(el,id);el.setAttribute('aria-hidden','true');return el};
+const avatar=(name,id)=>{const el=make('span','soco-avatar',name.trim().slice(0,2).toUpperCase());applyTheme(el,id);el.setAttribute('aria-hidden','true');const logo='assets/team-logos/'+Number(id)+'.png';const im=document.createElement('img');im.src=logo;im.alt='';im.loading='lazy';im.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%';im.onload=()=>{el.textContent='';el.append(im)};return el};
 async function refresh(){
  msg('Caricamento dei post…');
  const result=await sb.from('sococup_posts').select('*').order('created_at',{ascending:false}).limit(50);
@@ -56,7 +56,7 @@ async function refresh(){
    const name=teams.get(activeTeam)||'Fantasquadra';
    const count=posts.filter(p=>teamId(p)===activeTeam).length;
    const n=$('soco-profile-name'),a=$('soco-profile-avatar'),s=$('soco-profile-stats'),back=$('soco-profile-back');
-   n.textContent=name;a.textContent=name.trim().slice(0,2).toUpperCase();applyTheme(profile,activeTeam);
+   n.textContent=name;a.replaceChildren(avatar(name,activeTeam));applyTheme(profile,activeTeam);
    s.textContent=count+' '+(count===1?'post':'post')+' tra gli ultimi '+posts.length+' della lega';
    back.onclick=()=>{activeTeam=0;refresh()};
   }
