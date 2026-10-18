@@ -10,3 +10,7 @@
 .teamcard .teamcrest{height:64px;width:64px;min-width:64px;clip-path:none;background:#101828;border:1px solid #435477;border-radius:16px;overflow:hidden;padding:4px}
 .teamcard .teamcrest img{width:100%;height:100%;object-fit:contain}
 @media(max-width:740px){.team-line{gap:5px}.team-line img{width:24px;height:24px}}
+
+/* v14: lo stemma riempie esattamente la maschera arrotondata, senza angoli quadrati visibili */
+.teamcard .teamcrest{padding:0!important;overflow:hidden!important;border-radius:16px!important;isolation:isolate}
+.teamcard .teamcrest img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit;clip-path:inset(0 round 15px)}
