@@ -1,0 +1,1 @@
+Sostituisci assets/style.css, index.html, gazzetta.html e aggiungi giornalisti.html. Non modificare altri file. La v14 aggiunge la pagina giornalisti e corregge gli angoli delle immagini. Non include percentuali inventate o notizie live.
