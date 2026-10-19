@@ -1,0 +1,23 @@
+SOCOCUP V42 — HOME, CAMPIONATO E SOCOBET (AGGIORNAMENTO SENZA DATABASE)
+
+GITHUB — RAMO MAIN:
+1. Sostituisci nella radice: index.html, campionato.html, pronostici.html.
+2. Aggiungi in assets/: sococup-v42.css e sococup-v42.js.
+3. Commit su main (oppure unisci la pull request su main).
+4. NON cancellare social.html, social-online.js, stemmi, dati o altri file.
+
+SUPABASE: NESSUNA OPERAZIONE.
+SQL: NESSUNO DA ESEGUIRE, NESSUNO DA ELIMINARE.
+
+NOVITÀ:
+- Menu mobile più compatto (non occupa più l'intero schermo).
+- Campionato: selettore rapido delle 36 giornate e apertura predefinita della prima non completata.
+- Rimosso il riferimento a un file calendario.js inesistente: il calendario è già gestito da sococup-v30.js.
+- Home: riepilogo dinamico delle partite disponibili e link a SocoBet.
+- SocoBet: stemmi nelle sfide e contatore pronostici salvati per giornata.
+- Preservati i 180 incontri ufficiali, i risultati esistenti e i pronostici salvati nel browser.
+
+LIMITI:
+- SocoBet resta LOCALE: non esiste una classifica condivisa o un blocco per orario partita.
+- Non è stato effettuato un test live sul tuo Supabase o GitHub Pages.
+- Questo ZIP è una PATCH: non sostituisce l'intero repository.
