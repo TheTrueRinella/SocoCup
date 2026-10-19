@@ -54,7 +54,38 @@ function openVirtualProfile(p){
 }
 function setupVirtualPeople(){const wrap=document.getElementById('virtual-people-list');if(!wrap)return;for(const p of virtualPeople){const btn=document.createElement('button');btn.className='virtual-person';btn.type='button';btn.append(virtualAvatar(p));const n=document.createElement('strong');n.textContent=p.name;btn.append(n);const label=document.createElement('small');label.textContent=p.handle;btn.append(label);const role=document.createElement('small');role.className='virtual-person-role';role.textContent=p.role;btn.append(role);btn.onclick=()=>openVirtualProfile(p);wrap.append(btn)}}
 setupVirtualPeople();
+// v40: external news discovery (never presents unsourced headlines as verified news).
+const v40Hub=document.getElementById('v40-hub-content');
+const v40Topics=[
+ ['Serie A','Risultati, squadre e campionato','https://news.google.com/search?q=Serie%20A%20calcio&hl=it&gl=IT&ceid=IT%3Ait'],
+ ['Calciomercato','Notizie e trattative','https://news.google.com/search?q=calciomercato%20Serie%20A&hl=it&gl=IT&ceid=IT%3Ait'],
+ ['Palermo FC','Aggiornamenti rosanero','https://news.google.com/search?q=Palermo%20FC&hl=it&gl=IT&ceid=IT%3Ait'],
+ ['Fantacalcio','Formazioni, bonus e consigli','https://news.google.com/search?q=fantacalcio%20Serie%20A&hl=it&gl=IT&ceid=IT%3Ait']
+];
+const v40Memes=[
+ ['Il fantallenatore ottimista','Quest’anno vinco tutto. Fonte: me stesso. 😎'],
+ ['La panchina','Il mio bomber segna solo quando lo lascio in panchina.'],
+ ['Il mercato','Io: niente spese folli. Sempre io: offro tutto per un attaccante.'],
+ ['La domenica','Quando controlli il risultato ogni trenta secondi 👀']
+];
+function v40Node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el}
+function v40RenderHub(mode='news'){
+ if(!v40Hub)return;
+ document.querySelectorAll('.v40-tab').forEach(b=>b.classList.toggle('active',b.dataset.hub===mode));
+ v40Hub.replaceChildren();const intro=v40Node('p','v40-help',mode==='news'?'Apri le notizie aggiornate nelle fonti esterne. Soco X non inventa titoli né copia immagini degli editori.':mode==='meme'?'Scegli uno spunto e trasformalo in un post della tua squadra.':'I 25 personaggi sono virtuali; le fantasquadre sono gli account reali della lega.');v40Hub.append(intro);
+ const grid=v40Node('div','v40-grid');v40Hub.append(grid);
+ if(mode==='news')for(const [title,desc,url] of v40Topics){const tile=v40Node('div','v40-tile');tile.append(v40Node('strong','',title),v40Node('small','',desc));const link=v40Node('a','','Leggi le notizie ↗');link.href=url;link.target='_blank';link.rel='noopener noreferrer';tile.append(link);grid.append(tile)}
+ if(mode==='meme')for(const [title,idea] of v40Memes){const tile=v40Node('div','v40-tile');tile.append(v40Node('strong','',title),v40Node('small','',idea));const b=v40Node('button','v40-meme-button','Usa come bozza ↗');b.type='button';b.onclick=()=>{const field=document.getElementById('online-post-text');if(!field||document.getElementById('online-composer')?.hidden){location.href='login.html';return}field.value=idea;field.focus();field.scrollIntoView({behavior:'smooth',block:'center'})};tile.append(b);grid.append(tile)}
+ if(mode==='community'){const tile=v40Node('div','v40-tile');tile.append(v40Node('strong','','25 personaggi virtuali'),v40Node('small','','Ritratti e biografie, commenti automatici identificati come bot.'));const a=v40Node('a','','Esplora i personaggi ↓');a.href='#soco-virtual-people';tile.append(a);grid.append(tile);const team=v40Node('div','v40-tile');team.append(v40Node('strong','','10 fantasquadre'),v40Node('small','','Post, commenti e classifiche della lega.'));const t=v40Node('a','','Esplora le squadre ↓');t.href='#soco-team-filter';team.append(t);grid.append(team)}
+}
+document.querySelectorAll('.v40-tab').forEach(b=>b.addEventListener('click',()=>v40RenderHub(b.dataset.hub)));
+v40RenderHub();
+function v40ExternalLink(text){const match=String(text||'').match(/https:\/\/[^\s<>"']+/i);if(!match)return null;try{const u=new URL(match[0].replace(/[.,!?)]*$/,''));if(u.protocol!=='https:')return null;const box=v40Node('div','v40-link-card');box.append(v40Node('strong','','🔗 Link condiviso'));const a=v40Node('a','',u.hostname+' ↗');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';box.append(a,v40Node('small','','Apri il sito esterno per vedere il contenuto originale.'));return box}catch{return null}}
+
 const refreshButton=document.getElementById('soco-refresh');
+const v40Text=document.getElementById('online-post-text');
+if(v40Text){const count=v40Node('div','v40-count','0 / 500 caratteri');v40Text.insertAdjacentElement('afterend',count);const update=()=>{count.textContent=v40Text.value.length+' / 500 caratteri'};v40Text.addEventListener('input',update);update();const toolbar=v40Node('div','v40-toolbar');const news=v40Node('button','','📰 Notizie');news.type='button';news.onclick=()=>document.getElementById('soco-hub')?.scrollIntoView({behavior:'smooth'});const meme=v40Node('button','','😄 Idee meme');meme.type='button';meme.onclick=()=>{v40RenderHub('meme');document.getElementById('soco-hub')?.scrollIntoView({behavior:'smooth'})};toolbar.append(news,meme);count.insertAdjacentElement('afterend',toolbar)}
+
 
 const fallback=['Berlusca Dortmund','STOKE AZZO','Palermo Saint-Rosalia','Hertavernello','Aston Birra','Lamin Kiadura','ipsiwich down','Vecio Lanificio Rossi United','palermo','Ciccio Kebab FC'];
 const msg=(text,bad=false)=>{notice.textContent=text;notice.style.color=bad?'#ffb4a7':''};
@@ -139,7 +170,7 @@ async function refreshFeed(){
  if(!visible.length)feed.append(make('p','soco-empty',searchTerm?'Nessun risultato. Prova altre parole oppure cancella la ricerca.':'Nessun post pubblicato da questa squadra.'));
  for(const post of visible){
  const card=make('article','soco-post');applyTheme(card,teamId(post));const head=make('div','soco-post-head');head.append(post.identity_type==='personal'?make('span','soco-person-avatar','👤'):avatar(displayName(post),teamId(post)));
- const authorButton=make('button','soco-author',displayName(post));authorButton.type='button';authorButton.title='Vedi i post di '+displayName(post);authorButton.onclick=()=>{activeTeam=teamId(post);refresh();document.getElementById('soco-team-filter')?.scrollIntoView({behavior:'smooth',block:'start'})};if(post.identity_type!=='personal')head.append(make('span','soco-official','✓ Squadra ufficiale'));else head.append(make('span','soco-person-tag','Allenatore / tifoso'));head.append(authorButton,make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
+ const authorButton=make('button','soco-author',displayName(post));authorButton.type='button';authorButton.title='Vedi i post di '+displayName(post);authorButton.onclick=()=>{activeTeam=teamId(post);refresh();document.getElementById('soco-team-filter')?.scrollIntoView({behavior:'smooth',block:'start'})};if(post.identity_type!=='personal')head.append(make('span','soco-official','✓ Squadra ufficiale'));else head.append(make('span','soco-person-tag','Allenatore / tifoso'));head.append(authorButton,make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));const v40link=v40ExternalLink(getText(post));if(v40link)card.append(v40link);
  const own=getAuthor(post)===uid;
  if(own){const del=make('button','soco-small','Elimina post');del.type='button';del.addEventListener('click',async()=>{if(!confirm('Eliminare questo post?'))return;const r=await sb.from('sococup_posts').delete().eq('id',post.id).eq('author_id',uid);if(r.error)msg('Eliminazione non riuscita: '+r.error.message,true);else refresh()});card.append(del)}
  const related=comments.filter(x=>String(getPostRef(x))===String(post.id)),reaction=likes.filter(x=>String(getPostRef(x))===String(post.id));
