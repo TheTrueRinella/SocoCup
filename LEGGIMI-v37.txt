@@ -1,0 +1,13 @@
+SOCOCUP v37 — PROFILI VIRTUALI 2.0
+
+GITHUB (ramo main):
+- Sostituisci social.html nella radice.
+- Sostituisci assets/social-online.js nella cartella assets.
+- Fai Commit changes e attendi la pubblicazione GitHub Pages.
+
+SUPABASE: NON ESEGUIRE SQL. Nessuna modifica al database.
+FILE SQL: NESSUNO DA CARICARE O ELIMINARE.
+
+NOVITA: schede dettagliate dei 25 personaggi con ruolo, stile, biografia, copertina, badge di profilo fittizio e chiusura accessibile; card aggiornate e versione cache v37.
+
+NOTA: gli avatar SVG esistenti sono conservati, NON sono ancora fotografie realistiche. Le risposte automatiche esistenti non vengono modificate.
