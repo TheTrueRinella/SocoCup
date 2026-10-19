@@ -30,7 +30,7 @@ const virtualPeople=[
  {name:'Tommaso Villa',handle:'@tommaso_villa',bio:'Fantacalcio · Opinioni',slug:'tommaso-villa'}
 ];
 const virtualByName=new Map(virtualPeople.map(p=>[p.name,p]));
-function virtualAvatar(p,small=false){const im=document.createElement('img');im.className='virtual-avatar'+(small?' sm':'');im.src='assets/avatars/'+p.slug+'.svg';im.alt='';im.loading='lazy';return im}
+function virtualAvatar(p,small=false){const im=document.createElement('img');im.className='virtual-avatar'+(small?' sm':'');im.src='assets/avatars/'+p.slug+'.webp';im.alt='';im.loading='lazy';return im}
 const virtualRoles=['Tifoso rosanero','Analista Serie A','Osservatore mercato','Esperto fantacalcio','Opinionista','Tifosa rosanero','Analista fantacalcio','Cronista sportiva','Pagina ironica','Analista statistiche','Tifoso della lega','Commentatrice sportiva','Opinionista','Cronista sportiva','Esperto bonus','Pagellista','Cronista virtuale','Pagina ironica','Analista tattico','Esperta formazioni','Pagina ironica','Opinionista','Analista dati','Tifosa della lega','Opinionista fantacalcio'];
 const virtualPersonas=['Ironico e passionale','Riflessiva e precisa','Curioso e diretto','Attento ai dettagli','Schietto e vivace','Entusiasta e pungente','Metodico e competitivo','Curiosa e pacata','Scherzoso e imprevedibile','Analitica e concreta','Caloroso e spontaneo','Equilibrata e positiva','Pronto al dibattito','Curiosa e informata','Pragmatico e tecnico','Attenta alle pagelle','Narrativo e appassionato','Ironica e creativa','Tattico e meticoloso','Pratica e strategica','Scherzoso e sportivo','Ragionata e sincera','Preciso e statistico','Emotiva e vivace','Competitivo e schietto'];
 virtualPeople.forEach((p,i)=>{p.role=virtualRoles[i];p.persona=virtualPersonas[i]});
@@ -64,6 +64,11 @@ if(!window.supabase){msg('Libreria Supabase non caricata. Riprova aggiornando la
 const sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 let uid=null,team=null,teams=new Map(fallback.map((n,i)=>[i+1,n])),busy=false,activeTeam=0;
 let personalName='', postingAs='team';
+let searchTerm='';
+const normalizeSearch=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('it-IT');
+const searchForm=$('soco-search-form'),searchInput=$('soco-search-input'),searchClear=$('soco-search-clear'),searchStatus=$('soco-search-status');
+if(searchForm)searchForm.addEventListener('submit',ev=>{ev.preventDefault();searchTerm=normalizeSearch(searchInput.value.trim());searchClear.hidden=!searchTerm;refresh()});
+if(searchClear)searchClear.addEventListener('click',()=>{searchTerm='';searchInput.value='';searchClear.hidden=true;refresh();searchInput.focus()});
 const identityName=row=>row.identity_type==='personal'&&row.display_name?row.display_name:null;
 function identityPicker(){
  const host=$('soco-identity-panel');if(!host||!team)return;
@@ -128,8 +133,10 @@ async function refreshFeed(){
    back.onclick=()=>{activeTeam=0;refresh()};
   }
  }
- const visible=activeTeam?posts.filter(p=>teamId(p)===activeTeam):posts;
- if(!visible.length)feed.append(make('p','soco-empty','Nessun post pubblicato da questa squadra.'));
+ const teamVisible=activeTeam?posts.filter(p=>teamId(p)===activeTeam):posts;
+ const visible=searchTerm?teamVisible.filter(p=>{const discussionText=[...comments.filter(c=>String(getPostRef(c))===String(p.id)).map(getText),...botComments.filter(c=>String(c.post_id)===String(p.id)).map(c=>c.content||'')].join(' ');return normalizeSearch([getText(p),displayName(p),teams.get(teamId(p)),discussionText].join(' ')).includes(searchTerm)}):teamVisible;
+ if(searchStatus)searchStatus.textContent=searchTerm?`${visible.length} risultati negli ultimi ${posts.length} post caricati. La ricerca include i commenti.`:'Cerca negli ultimi 50 post caricati.';
+ if(!visible.length)feed.append(make('p','soco-empty',searchTerm?'Nessun risultato. Prova altre parole oppure cancella la ricerca.':'Nessun post pubblicato da questa squadra.'));
  for(const post of visible){
  const card=make('article','soco-post');applyTheme(card,teamId(post));const head=make('div','soco-post-head');head.append(post.identity_type==='personal'?make('span','soco-person-avatar','👤'):avatar(displayName(post),teamId(post)));
  const authorButton=make('button','soco-author',displayName(post));authorButton.type='button';authorButton.title='Vedi i post di '+displayName(post);authorButton.onclick=()=>{activeTeam=teamId(post);refresh();document.getElementById('soco-team-filter')?.scrollIntoView({behavior:'smooth',block:'start'})};if(post.identity_type!=='personal')head.append(make('span','soco-official','✓ Squadra ufficiale'));else head.append(make('span','soco-person-tag','Allenatore / tifoso'));head.append(authorButton,make('small','',formatDate(post.created_at)));card.append(head,make('p','soco-post-body',getText(post)));
