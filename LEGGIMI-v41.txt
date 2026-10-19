@@ -1,0 +1,19 @@
+SOCOCUP V41 — MENU UNIFICATO E PROFILO SQUADRA
+
+GITHUB (ramo main):
+- Carica i file HTML inclusi nella radice del sito, sovrascrivendo gli omonimi.
+- Sostituisci assets/session-ui.js.
+- Aggiungi assets/sococup-v41.css.
+- NON cancellare gli altri file del sito; social.html e assets/social-online.js della v40 restano invariati (NON sostituirli).
+
+SUPABASE: NESSUNA operazione.
+SQL: NESSUNO da eseguire, caricare o eliminare.
+
+NOVITÀ:
+- Stemma e nome della squadra collegata nel menu principale.
+- Pulsante Esci compatto e separato in fondo al menu mobile.
+- Evidenza SocoBet, chiusura del menu con ESC e miglioramento scorrimento mobile.
+
+LIMITI:
+- Non modifica dati, classifica, calendario, bot o login Supabase.
+- Verificare dopo la pubblicazione su GitHub Pages il menu da telefono e la disconnessione.
