@@ -1,0 +1,20 @@
+SOCOCUP V36 — FEED MOBILE E AGGIORNA POST
+
+GITHUB — SOSTITUISCI:
+1. social.html nella cartella principale del repository
+2. assets/social-online.js nella cartella assets
+3. Salva su main (o unisci la pull request a main).
+
+SUPABASE — NON FARE NULLA:
+Questa versione non contiene file SQL. Non eseguire query.
+
+SQL DA ELIMINARE — NESSUNO:
+Non eliminare tabelle o funzioni su Supabase. Gli SQL delle versioni precedenti già eseguiti possono restare fuori da GitHub.
+
+NOVITA:
+- Pulsante Aggiorna nella testata di Soco X, con blocco durante il caricamento.
+- Commenti bot più compatti e senza riquadri colorati.
+- Impaginazione mobile più leggibile per autore, badge e data.
+- Tutte le funzioni della v35 restano invariate.
+
+NOTA: patch preparata a partire dai file distribuiti nella v35, non da una copia live di GitHub.
