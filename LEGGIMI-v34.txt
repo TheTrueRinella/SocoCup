@@ -1,0 +1,11 @@
+SOCOCUP v34 — COMMUNITY BOT AUTOMATICI
+
+1. Supabase > SQL Editor: esegui SOCOX-V34-BOT-AUTOMATICI.sql.
+2. GitHub: sostituisci social.html e assets/social-online.js.
+3. Fai Commit e ricarica la pagina (se necessario svuota la cache).
+4. Pubblica un NUOVO post di prova: dovrebbero comparire due commenti di bot virtuali.
+
+IMPORTANTE: lo SQL richiede che public.sococup_bot_comments esista già e abbia le colonne post_id, bot_name, content. Se non è così, non eseguirlo alla cieca: serve adeguare lo schema. Non abbiamo accesso al database per verificarlo.
+I commenti sono contestuali per parole chiave e visibili a tutti, NON generati da intelligenza artificiale. Non imitano VIP reali.
+Non vengono alterati vecchi post, login, nomi personali, commenti o squadre.
+Per il prossimo passo: bot IA con Edge Function e controllo costi/sicurezza.
