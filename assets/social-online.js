@@ -31,8 +31,28 @@ const virtualPeople=[
 ];
 const virtualByName=new Map(virtualPeople.map(p=>[p.name,p]));
 function virtualAvatar(p,small=false){const im=document.createElement('img');im.className='virtual-avatar'+(small?' sm':'');im.src='assets/avatars/'+p.slug+'.svg';im.alt='';im.loading='lazy';return im}
-function openVirtualProfile(p){const modal=document.createElement('div');modal.className='virtual-popover';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Profilo di '+p.name);const card=document.createElement('div');card.className='virtual-popover-card';const close=document.createElement('button');close.className='virtual-close';close.textContent='×';close.setAttribute('aria-label','Chiudi');close.onclick=()=>modal.remove();card.append(close,virtualAvatar(p));const name=document.createElement('h2');name.textContent=p.name;card.append(name);const handle=document.createElement('div');handle.className='virtual-handle';handle.textContent=p.handle;card.append(handle);const bio=document.createElement('p');bio.textContent=p.bio;card.append(bio);const disclosure=document.createElement('p');disclosure.className='virtual-label';disclosure.textContent='Profilo virtuale di Soco X: personaggio fittizio, non una persona reale.';card.append(disclosure);modal.append(card);modal.onclick=e=>{if(e.target===modal)modal.remove()};document.body.append(modal);close.focus()}
-function setupVirtualPeople(){const wrap=document.getElementById('virtual-people-list');if(!wrap)return;for(const p of virtualPeople){const btn=document.createElement('button');btn.className='virtual-person';btn.type='button';btn.append(virtualAvatar(p));const n=document.createElement('strong');n.textContent=p.name;btn.append(n);const label=document.createElement('small');label.textContent=p.handle;btn.append(label);btn.onclick=()=>openVirtualProfile(p);wrap.append(btn)}}
+const virtualRoles=['Tifoso rosanero','Analista Serie A','Osservatore mercato','Esperto fantacalcio','Opinionista','Tifosa rosanero','Analista fantacalcio','Cronista sportiva','Pagina ironica','Analista statistiche','Tifoso della lega','Commentatrice sportiva','Opinionista','Cronista sportiva','Esperto bonus','Pagellista','Cronista virtuale','Pagina ironica','Analista tattico','Esperta formazioni','Pagina ironica','Opinionista','Analista dati','Tifosa della lega','Opinionista fantacalcio'];
+const virtualPersonas=['Ironico e passionale','Riflessiva e precisa','Curioso e diretto','Attento ai dettagli','Schietto e vivace','Entusiasta e pungente','Metodico e competitivo','Curiosa e pacata','Scherzoso e imprevedibile','Analitica e concreta','Caloroso e spontaneo','Equilibrata e positiva','Pronto al dibattito','Curiosa e informata','Pragmatico e tecnico','Attenta alle pagelle','Narrativo e appassionato','Ironica e creativa','Tattico e meticoloso','Pratica e strategica','Scherzoso e sportivo','Ragionata e sincera','Preciso e statistico','Emotiva e vivace','Competitivo e schietto'];
+virtualPeople.forEach((p,i)=>{p.role=virtualRoles[i];p.persona=virtualPersonas[i]});
+function openVirtualProfile(p){
+ const existing=document.querySelector('.virtual-popover');if(existing)existing.remove();
+ const modal=document.createElement('div');modal.className='virtual-popover';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Profilo virtuale di '+p.name);
+ const card=document.createElement('div');card.className='virtual-popover-card virtual-profile-v37';
+ const cover=document.createElement('div');cover.className='virtual-profile-cover';card.append(cover);
+ const close=document.createElement('button');close.className='virtual-close';close.textContent='×';close.setAttribute('aria-label','Chiudi');card.append(close);
+ const main=document.createElement('div');main.className='virtual-profile-main';main.append(virtualAvatar(p));
+ const name=document.createElement('h2');name.textContent=p.name;main.append(name);
+ const handle=document.createElement('div');handle.className='virtual-handle';handle.textContent=p.handle;main.append(handle);
+ const badge=document.createElement('div');badge.className='virtual-profile-badge';badge.textContent='✦ Personaggio virtuale · Soco X';main.append(badge);
+ const bio=document.createElement('p');bio.textContent=p.bio;main.append(bio);
+ const facts=document.createElement('div');facts.className='virtual-profile-facts';
+ for(const [label,value] of [['Ruolo',p.role],['Stile',p.persona],['Community','SocoCup 2026/27']]){const item=document.createElement('div');const k=document.createElement('small');k.textContent=label;const v=document.createElement('strong');v.textContent=value;item.append(k,v);facts.append(item)}main.append(facts);
+ const disclosure=document.createElement('p');disclosure.className='virtual-profile-disclosure';disclosure.textContent='Profilo fittizio gestito da Soco X. Le risposte sono automatiche, non dichiarazioni di persone reali.';main.append(disclosure);
+ card.append(main);modal.append(card);
+ const onKey=e=>{if(e.key==='Escape')remove()};function remove(){document.removeEventListener('keydown',onKey);modal.remove()}
+ close.onclick=remove;modal.onclick=e=>{if(e.target===modal)remove()};document.addEventListener('keydown',onKey);document.body.append(modal);close.focus();
+}
+function setupVirtualPeople(){const wrap=document.getElementById('virtual-people-list');if(!wrap)return;for(const p of virtualPeople){const btn=document.createElement('button');btn.className='virtual-person';btn.type='button';btn.append(virtualAvatar(p));const n=document.createElement('strong');n.textContent=p.name;btn.append(n);const label=document.createElement('small');label.textContent=p.handle;btn.append(label);const role=document.createElement('small');role.className='virtual-person-role';role.textContent=p.role;btn.append(role);btn.onclick=()=>openVirtualProfile(p);wrap.append(btn)}}
 setupVirtualPeople();
 const refreshButton=document.getElementById('soco-refresh');
 
