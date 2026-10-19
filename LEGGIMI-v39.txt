@@ -1,0 +1,14 @@
+SOCOCUP v39 — RICERCA NELLA BACHECA
+
+GITHUB (ramo main):
+1. Sostituisci social.html nella cartella principale.
+2. Sostituisci assets/social-online.js.
+3. Commit changes. Se usi un ramo patch, uniscilo a main.
+
+SUPABASE: NESSUNA OPERAZIONE.
+SQL: NESSUN FILE DA ESEGUIRE O ELIMINARE.
+
+Novità: ricerca nei testi di post, nomi squadra/autore e commenti (inclusi bot), combinabile con filtro fantasquadra; pulsante per azzerare ricerca; correzione contatore a 25 personaggi.
+Limite: la ricerca agisce sugli ultimi 50 post caricati dal sito, non sull'intero archivio del database.
+
+I 25 avatar .webp della v38 restano su GitHub e non vanno cancellati.
