@@ -1,0 +1,14 @@
+SOCOCUP V35 — RISPOSTE PIÙ PERTINENTI + COMMENTI PULITI
+
+1) SUPABASE > SQL Editor: esegui SOCOX-V35-RISPOSTE.sql UNA VOLTA.
+   Questo aggiorna la funzione della v34. Non cancellare il trigger v34.
+2) GITHUB: sostituisci social.html nella radice del sito.
+3) GITHUB: sostituisci assets/social-online.js.
+4) Fai Commit, attendi GitHub Pages e ricarica Soco X.
+5) Pubblica un NUOVO post di prova (es. 'La nostra rosa è forte, dobbiamo essere bravi').
+
+I commenti già pubblicati non cambiano; i nuovi useranno risposte più pertinenti.
+25 personaggi, login, profilo personale/squadra e vecchi post sono preservati.
+I bot NON sono IA: usano frasi per argomento. Gli avatar sono ancora quelli della v33.
+Non include foto realistiche né notizie live: richiedono una fase separata.
+Se Supabase dà errore, non continuare: invia il messaggio completo.
