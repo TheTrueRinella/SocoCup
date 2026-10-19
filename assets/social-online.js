@@ -34,6 +34,8 @@ function virtualAvatar(p,small=false){const im=document.createElement('img');im.
 function openVirtualProfile(p){const modal=document.createElement('div');modal.className='virtual-popover';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Profilo di '+p.name);const card=document.createElement('div');card.className='virtual-popover-card';const close=document.createElement('button');close.className='virtual-close';close.textContent='×';close.setAttribute('aria-label','Chiudi');close.onclick=()=>modal.remove();card.append(close,virtualAvatar(p));const name=document.createElement('h2');name.textContent=p.name;card.append(name);const handle=document.createElement('div');handle.className='virtual-handle';handle.textContent=p.handle;card.append(handle);const bio=document.createElement('p');bio.textContent=p.bio;card.append(bio);const disclosure=document.createElement('p');disclosure.className='virtual-label';disclosure.textContent='Profilo virtuale di Soco X: personaggio fittizio, non una persona reale.';card.append(disclosure);modal.append(card);modal.onclick=e=>{if(e.target===modal)modal.remove()};document.body.append(modal);close.focus()}
 function setupVirtualPeople(){const wrap=document.getElementById('virtual-people-list');if(!wrap)return;for(const p of virtualPeople){const btn=document.createElement('button');btn.className='virtual-person';btn.type='button';btn.append(virtualAvatar(p));const n=document.createElement('strong');n.textContent=p.name;btn.append(n);const label=document.createElement('small');label.textContent=p.handle;btn.append(label);btn.onclick=()=>openVirtualProfile(p);wrap.append(btn)}}
 setupVirtualPeople();
+const refreshButton=document.getElementById('soco-refresh');
+
 const fallback=['Berlusca Dortmund','STOKE AZZO','Palermo Saint-Rosalia','Hertavernello','Aston Birra','Lamin Kiadura','ipsiwich down','Vecio Lanificio Rossi United','palermo','Ciccio Kebab FC'];
 const msg=(text,bad=false)=>{notice.textContent=text;notice.style.color=bad?'#ffb4a7':''};
 const make=(tag,cls,txt)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(txt!==undefined)el.textContent=txt;return el};
@@ -73,6 +75,10 @@ function teamLogo(id){const n=Number(id);if(!Number.isInteger(n)||n<1||n>10)retu
 for(let i=1;i<=10;i++)teamLogo(i);
 const avatar=(name,id)=>{const el=make('span','soco-avatar');applyTheme(el,id);el.setAttribute('aria-hidden','true');const fallback=make('span','soco-avatar-fallback',(name||'?').trim().slice(0,2).toUpperCase());el.append(fallback);const logo=teamLogo(id);if(logo){const im=document.createElement('img');im.alt='';im.loading='eager';im.decoding='async';im.src=logo;im.addEventListener('load',()=>{fallback.hidden=true},{once:true});im.addEventListener('error',()=>{im.remove();fallback.hidden=false},{once:true});el.append(im)}return el};
 async function refresh(){
+ if(refreshButton){refreshButton.disabled=true;refreshButton.textContent='↻ Caricamento…'}
+ try{return await refreshFeed()}finally{if(refreshButton){refreshButton.disabled=false;refreshButton.textContent='↻ Aggiorna'}}
+}
+async function refreshFeed(){
  msg('Caricamento dei post…');
  const result=await sb.from('sococup_posts').select('*').order('created_at',{ascending:false}).limit(50);
  if(result.error){msg('Bacheca non disponibile: '+result.error.message,true);return}
