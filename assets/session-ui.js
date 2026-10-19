@@ -10,7 +10,17 @@ async function start(){
  document.dispatchEvent(new CustomEvent('sococup:account',{detail:profile}));
  const nav=document.querySelector('#nav');
  if(nav){let a=[...nav.querySelectorAll('a')].find(x=>x.getAttribute('href')==='login.html');if(!a){a=document.createElement('a');a.href='login.html';nav.append(a)}
- if(profile){a.textContent='Esci';a.href='#';a.title='Esci da '+profile.name;a.addEventListener('click',async e=>{e.preventDefault();if(!confirm('Vuoi uscire da SocoCup?'))return;try{await sb.auth.signOut();location.href='login.html'}catch{alert('Disconnessione non riuscita. Riprova.')}})}else{a.textContent='Accedi';a.href='login.html'}}
+ if(profile){a.textContent='Esci';a.classList.add('soco-nav-logout');a.href='#';a.title='Esci da '+profile.name;a.addEventListener('click',async e=>{e.preventDefault();if(!confirm('Vuoi uscire da SocoCup?'))return;try{await sb.auth.signOut();location.href='login.html'}catch{alert('Disconnessione non riuscita. Riprova.')}})}else{a.textContent='Accedi';a.href='login.html'}}
+ if(profile){
+  let account=nav.querySelector('.soco-nav-account');
+  if(!account){account=document.createElement('a');account.className='soco-nav-account';account.href='login.html';nav.insertBefore(account,nav.firstChild)}
+  const img=document.createElement('img');img.src='assets/teams-logos/'+profile.id+'.png';img.alt='';img.onerror=()=>img.remove();
+  const label=document.createElement('span');label.textContent=profile.name;
+  account.replaceChildren(img,label);account.title='Squadra collegata: '+profile.name;
+ }
+ const menu=document.getElementById('menubtn');
+ if(menu){menu.setAttribute('aria-controls','nav');menu.addEventListener('click',()=>menu.setAttribute('aria-expanded',String(nav.classList.contains('open'))));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){nav.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.focus()}})}
  const socialAccount=document.querySelector('.left a[href="login.html"]');if(socialAccount)socialAccount.querySelector('.navtext')?.replaceChildren(document.createTextNode(profile?'Esci':'Accedi'));
  if(profile&&socialAccount){socialAccount.addEventListener('click',async e=>{e.preventDefault();if(!confirm('Vuoi uscire da SocoCup?'))return;await sb.auth.signOut();location.href='login.html'})}
  const bottom=document.querySelector('.bottom-nav a[href="login.html"]');if(bottom&&profile){bottom.setAttribute('aria-label','Esci');bottom.addEventListener('click',async e=>{e.preventDefault();if(!confirm('Vuoi uscire da SocoCup?'))return;await sb.auth.signOut();location.href='login.html'})}

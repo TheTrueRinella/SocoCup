@@ -1,0 +1,12 @@
+/* SocoCup v41 — menu compatto e identità squadra */
+#nav .soco-nav-account{display:inline-flex;align-items:center;gap:7px;max-width:185px;font-size:12px;font-weight:750;color:#fff;background:#ffffff12;border:1px solid #ffffff22;border-radius:999px;padding:5px 9px}
+#nav .soco-nav-account img{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none}
+#nav .soco-nav-account span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nav .soco-nav-logout{font-size:12px;color:#f5c4d8;border:1px solid #9e547a66;border-radius:999px;padding:7px 11px;margin-left:auto}
+#nav .v30-predictions{color:#ffb8d7;font-weight:800}
+@media(max-width:740px){
+ #nav.open{z-index:100;max-height:calc(100dvh - 67px);overflow-y:auto;box-shadow:0 14px 30px #0009;padding:12px 18px 18px;gap:2px}
+ #nav.open a{font-size:14px;padding:10px 12px;border-radius:9px}
+ #nav.open .soco-nav-account{max-width:none;padding:9px 12px;margin-bottom:7px;justify-content:flex-start}
+ #nav.open .soco-nav-logout{margin:14px 0 0;padding:12px;border-top:1px solid #ffffff28;text-align:center;font-size:12px}
+}
