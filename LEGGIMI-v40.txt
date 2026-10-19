@@ -1,0 +1,19 @@
+SOCOCUP v40 - SOCO X ULTIMATE (pacchetto unico)
+
+INSTALLAZIONE
+1. GitHub: carica social.html nella root e social-online.js dentro assets/.
+2. Fai Commit su main (oppure unisci la pull request).
+3. Supabase: NESSUN SQL DA ESEGUIRE.
+4. SQL su GitHub: NESSUN FILE SQL DA AGGIUNGERE O ELIMINARE.
+5. Apri Soco X e verifica schede Notizie, Meme, Community, ricerca, post e bot.
+
+NOVITA' E LIMITI
+- Hub Notizie: link esterni a ricerche aggiornate su Google News; NON importa articoli in tempo reale nel feed.
+- Hub Meme: idee e bozze pubblicabili dagli utenti autenticati, non bot che fingono notizie.
+- Community: collegamenti ai 25 personaggi e alle 10 squadre.
+- Link HTTPS nei post: scheda con dominio e link originale, senza incorporare immagini protette.
+- Contatore caratteri e scorciatoie nell'editor.
+- Tutto il sistema precedente (v39, bot SQL v35, ricerca, login) rimane invariato.
+- Risposte AI autentiche ai commenti, feed news importato, upload immagini e notifiche push
+  NON sono implementati: richiedono backend, moderazione e permessi aggiuntivi.
+- Non inserire chiavi segrete in GitHub o JavaScript client.
