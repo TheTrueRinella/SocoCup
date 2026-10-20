@@ -1,7 +1,11 @@
-SOCOCUP - Centro Partite: solo file aggiornati
+SOCOCUP — SCHEDINA MULTIPLA (SOLO AGGIORNAMENTI)
 
-Carica pronostici.html nella radice GitHub.
-Carica socobet.css e socobet.js nella cartella assets/.
-Non cancellare gli altri file. Nessun SQL necessario.
+Carica i seguenti file nel repository GitHub mantenendo i percorsi:
+- pronostici.html -> radice del repository
+- assets/socobet.js -> cartella assets
+- assets/socobet.css -> cartella assets
 
-Questo pacchetto migliora la navigazione mobile e conserva le statistiche e i pronostici gratuiti. Non contiene quote, moltiplicatori, puntate o vincite. Le percentuali mostrate sono frequenze storiche.
+Non caricare una cartella SocoCup-main. Non eseguire SQL.
+
+FUNZIONI: selezioni su più partite, più mercati per partita, riepilogo unico, rimozione singole scelte, salvataggio locale, valutazione delle previsioni concluse.
+LIMITI: il salvataggio non è sincronizzato tra utenti; non sono presenti quote, moltiplicatori, puntate o premi. Le frequenze storiche non sono probabilità predittive.
