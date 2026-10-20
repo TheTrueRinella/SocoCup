@@ -1,14 +1,11 @@
-SOCOCUP - AGGIORNAMENTO SOCOBET: SCHEDINA MULTIPLA
-
-CARICA SOLO QUESTI 3 FILE nel repository GitHub:
-- pronostici.html  -> radice del repository
+SOCOCUP - CORREZIONE CENTRO PRONOSTICI
+Carica SOLO questi file nel repository GitHub:
+- pronostici.html -> radice
 - assets/socobet.js -> cartella assets
 - assets/socobet.css -> cartella assets
 
-Non cancellare altri file. Non eseguire SQL su Supabase.
+Correzione: il pulsante Copia diventa Conferma previsioni. La conferma salva una fotografia delle previsioni non ancora concluse in una cronologia locale espandibile. Le previsioni rimangono gratuite e non sono puntate.
 
-Novita': elenco partite, selezione 1/X/2 senza descrizioni duplicate, schede per Gol/No Gol, Over/Under, risultato esatto, combo, riepilogo di piu' previsioni, rimozione, copia, distinzione in attesa/verificate.
+IMPORTANTE: la cronologia e le scelte restano nel browser, NON nell'account Supabase. Non vengono sincronizzate fra dispositivi. Le quote e i moltiplicatori non sono inclusi.
 
-I pronostici sono GRATUITI e rimangono nel browser (localStorage). Nessuna puntata, quota monetaria o vincita. Non sono sincronizzati tra utenti.
-
-Apri pronostici.html in una scheda in incognito dopo il caricamento. Verifica su due partite non ancora concluse e prova ad aggiungere/rimuovere piu' scelte.
+Non serve SQL. Non cancellare altri file.
