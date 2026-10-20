@@ -1,12 +1,12 @@
-SOCOCUP - CENTRO PARTITE - SOLO FILE MODIFICATI
+SOCOCUP - CENTRO PARTITE / RESTYLING COMPLETO
 
-Carica nella radice del repository GitHub i seguenti file, mantenendo i percorsi:
-- index.html
-- pronostici.html
-- assets/socobet.css
-- assets/socobet.js
+Carica SOLO questi tre file nel repository GitHub:
+- pronostici.html nella cartella principale
+- assets/socobet.css nella cartella assets
+- assets/socobet.js nella cartella assets
 
-Sostituisci i file omonimi. Non cancellare gli altri file del sito.
-Non eseguire SQL su Supabase.
+Non eliminare altri file. Nessun SQL Supabase necessario.
 
-Questo pacchetto e' estratto dal Centro Partite Unico gia' preparato.
+Novita: layout con lista partite separata da dettaglio, nuova testata, tab dei mercati, grafica mobile, selezione partita.
+Pronostici locali al dispositivo, NON sincronizzati tra account.
+Per aggiornare la cache, apri il sito in incognito.
