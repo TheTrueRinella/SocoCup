@@ -1,0 +1,23 @@
+SOCOCUP — PACCHETTO UNICO DI AGGIORNAMENTO
+
+GITHUB
+1. Apri la cartella SocoCup-main nello ZIP.
+2. Carica il contenuto della cartella nella RADICE del repository GitHub, mantenendo le sottocartelle assets/ e relative immagini.
+3. Sostituisci i file omonimi e fai Commit su main.
+4. Apri pronostici.html dal menu e verifica le giornate.
+
+SUPABASE
+Nessun SQL da eseguire. Nessun file SQL da cancellare.
+
+SOCOBET
+- Nuova pagina unificata e responsive con statistiche dai risultati reali del calendario.
+- 1/X/2, Gol/No Gol, Over/Under 0.5/1.5/2.5/3.5, risultato esatto e combinazioni 1/X/2 + Gol/No Gol.
+- 10 SocoCoin SIMBOLICI per ogni pronostico corretto. Non sono acquistabili, trasferibili o riscattabili.
+- Migrazione automatica delle precedenti scelte locali 1/X/2 alla nuova interfaccia (se il browser le conserva).
+- I pronostici rimangono LOCALI, non sincronizzati su Supabase: niente classifica globale o blocco basato sull'orario.
+- Le frequenze storiche NON sono quote e NON costituiscono probabilità predittive.
+- Marcatori, assist, infortuni e probabilità di giocare NON disponibili senza una fonte dati affidabile.
+
+TEST
+Verificare su GitHub Pages con refresh della cache del browser.
+Il pacchetto è verificato staticamente ma NON testato su account Supabase o GitHub Pages live.

@@ -1,0 +1,10 @@
+SOCOCUP — PACCHETTO UNICO
+
+1. Carica sul repository GitHub tutti i file e le cartelle contenuti in questa cartella, mantenendo la struttura.
+2. NON caricare la cartella esterna SocoCup-main: i file HTML devono stare alla radice del repository.
+3. In questa consegna NON devi eseguire alcun file SQL su Supabase.
+4. SocoBet usa il calendario esistente, e offre analisi storiche e pronostici gratuiti con punti simbolici; i salvataggi sono SOLO sul dispositivo. Non esiste ancora una classifica online condivisa.
+5. Marcatori, assist e probabilita di titolarita non sono stati inventati: servono dati affidabili da integrare.
+6. Se il sito sembra invariato, aggiorna la pagina svuotando la cache del browser.
+
+File principali modificati: pronostici.html; assets/socobet.css; assets/socobet.js. Gli altri file sono inclusi per facilitare un unico caricamento.
