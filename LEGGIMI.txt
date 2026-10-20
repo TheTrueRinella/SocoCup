@@ -1,5 +1,12 @@
-SOCOCUP v28 - Pronostici interattivi
+SOCOCUP - CENTRO PARTITE - SOLO FILE MODIFICATI
 
-Sostituisci pronostici.html nel repository SocoCup. Richiede assets/partite-ufficiali.js già presente nel progetto.
+Carica nella radice del repository GitHub i seguenti file, mantenendo i percorsi:
+- index.html
+- pronostici.html
+- assets/socobet.css
+- assets/socobet.js
 
-I pronostici si salvano solo sul dispositivo (localStorage). Non è una classifica online, non c’è denaro reale. Le giornate con tutti i risultati già registrati non sono modificabili. Per il blocco all’orario di inizio gara occorreranno orari verificati e backend.
+Sostituisci i file omonimi. Non cancellare gli altri file del sito.
+Non eseguire SQL su Supabase.
+
+Questo pacchetto e' estratto dal Centro Partite Unico gia' preparato.
