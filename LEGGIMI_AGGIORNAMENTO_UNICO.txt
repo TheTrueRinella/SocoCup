@@ -1,0 +1,11 @@
+SOCOCUP - AGGIORNAMENTO HOME E CENTRO SOCOBET
+
+Carica su GitHub TUTTI i file contenuti nella cartella SocoCup-main, sostituendo gli omonimi.
+Non caricare la cartella esterna come sottocartella: index.html deve restare nella radice.
+Nessun SQL da eseguire in Supabase.
+
+Novita: accesso evidente a SocoBet dalla Home, navigazione categorie scorrevole da telefono, tab Forma squadre con ultimi 5 risultati (V/N/P), indicazione del numero di partite usate per le frequenze, migliorie grafiche.
+
+Limiti: i pronostici sono locali al browser, non sincronizzati fra utenti. Le frequenze storiche non sono quote e non sono probabilita predittive. Le statistiche calciatori richiedono dati aggiuntivi.
+
+Test consigliato: Home -> SocoBet -> seleziona giornata -> apri Forma squadre -> verifica risultati e frequenze.
